@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{forward.adapt.R.NeuralNet}
 \alias{forward.adapt.R.NeuralNet}
 \alias{forward.adapt.C.NeuralNet}

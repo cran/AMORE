@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{init.neuron}
 \alias{init.neuron}
 \title{Neuron constructor.}

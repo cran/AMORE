@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{training.report}
 \alias{training.report}
 

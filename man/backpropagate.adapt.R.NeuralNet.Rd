@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{backpropagate.adapt.R.NeuralNet}
 \alias{backpropagate.adapt.R.NeuralNet}
 \alias{backpropagate.adapt.C.NeuralNet}

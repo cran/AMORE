@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{newff}
 \alias{newff}
 \title{ Feedforward Neural Network}
@@ -37,7 +38,7 @@ Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 }
 
 \references{
-Pernia Espinoza, A.V. TAO-ROBUST BACKPROPAGATION LEARNING ALGORITHM \cr \cr
+Pernia Espinoza, A.V. TAO-robust backpropagation learning algorithm. Neural Networks. In press. \cr \cr
 Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 

@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{random.init.neuron}
 \alias{random.init.neuron}
 \title{Initialize the neuron with random weigths and bias.}

@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{select.activation.function}
 \alias{select.activation.function}
 \title{Provides R code of the selected activation function.}

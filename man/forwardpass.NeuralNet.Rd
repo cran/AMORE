@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{forwardpass.R.NeuralNet}
 \alias{forwardpass.R.NeuralNet}
 \alias{forwardpass.C.NeuralNet}

@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{sim.C.NeuralNet}
 \alias{sim.NeuralNet}
 \alias{sim.C.NeuralNet}

@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{set.learning.rate.and.momentum}
 \alias{set.learning.rate.and.momentum}
 \title{Set Learning rate and momentum.}

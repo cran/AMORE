@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{adapt}
 \alias{adapt.NeuralNet}
 \alias{adapt.R.NeuralNet}

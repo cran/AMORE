@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{forwardpass.R.neuron}
 \alias{forwardpass.R.neuron}
 

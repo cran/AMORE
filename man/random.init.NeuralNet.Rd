@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{random.init.NeuralNet}
 \alias{random.init.NeuralNet}
 \title{Initialize the network with random weigths and biases.}

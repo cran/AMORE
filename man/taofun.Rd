@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{error.TAO}
 \alias{hfun}
 \alias{phifun}
@@ -30,7 +31,7 @@ Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 }
 
 \references{
-Pernia, A.V. TAO-ROBUST BACKPROPAGATION LEARNING ALGORITHM \cr \cr
+Pernia Espinoza, A.V. TAO-robust backpropagation learning algorithm. Neural Networks. In press. \cr \cr
 Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 

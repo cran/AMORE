@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{backpropagate.adapt.R.neuron}
 \alias{backpropagate.adapt.R.neuron}
 
