@@ -1,22 +1,20 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
+\name{ADAPTgdwm.Forward.MLPneuron}
+\alias{ADAPTgdwm.Forward.MLPneuron}
 
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+\title{Perform the neuron forward pass in the ADAPTgdwm training method.}
+\description{This function is similar to \code{\link{sim.Forward.MLPneuron}} but the derivative of the activation function of the neuron is also calculated. }
 
 \usage{
-training.report(net,P,T, epoch, error.criterium)
-}
-\arguments{
-\item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+ADAPTgdwm.Forward.MLPneuron(net,ind.MLPneuron)
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\arguments{
+\item{net}{Neural Network to adapt.}
+\item{ind.MLPneuron}{Index of the neuron to forward pass.}
+}
+
+\value{This function returns the forward passed neuron.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -32,8 +30,8 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
-}
+\code{\link{ADAPTgdwm.Forward.MLPnet}}}
+
 
 \keyword{neural}
 

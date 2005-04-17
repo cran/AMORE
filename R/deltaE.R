@@ -38,10 +38,11 @@ dphifun <- function(v,k) {
 deltaE.TAO <- function (arguments) {
    prediction <- arguments[[1]]
    target     <- arguments[[2]] 
-   Stao       <- arguments[[3]]$Stao
+   Stao       <- arguments[[3]]$other.elements$Stao  # the third argument is the net.
+   
    residual   <- prediction - target
    scaled.residual <- residual / Stao
-   c1  <- 2.56
+   c1  <- 1.56
    c2  <- 6.08
    bf  <- c1^2 / 12 
 
@@ -61,11 +62,11 @@ deltaE.TAO <- function (arguments) {
    
 }
 ###############################################################################
-#                         DELTA ERROR MSE 
+#                         DELTA ERROR LMS 
 ###############################################################################
-deltaE.MSE <- function(arguments) {
-   prediction <- arguments[[1]]
-   target     <- arguments[[2]] 
+deltaE.LMS <- function(arguments) {
+   prediction <- arguments[[1]]                      # arg1 is the prediction
+   target     <- arguments[[2]]                      # arg2 is the target
    residual   <- prediction - target
    return(residual)
 }
@@ -73,18 +74,18 @@ deltaE.MSE <- function(arguments) {
 #                         DELTA ERROR LMLS
 ###############################################################################
 deltaE.LMLS <- function(arguments) {
-   prediction <- arguments[[1]]
-   target     <- arguments[[2]] 
+   prediction <- arguments[[1]]                      # arg1 is the prediction
+   target     <- arguments[[2]]                      # arg2 is the target
    residual   <- prediction - target
    result     <- residual / (1 + residual^2 / 2) 
    return(result)
 }
 ###############################################################################
-#                         ERROR MSE 
+#                         ERROR LMS 
 ###############################################################################
-error.MSE <- function(arguments) {
-   prediction <- arguments[[1]]
-   target     <- arguments[[2]] 
+error.LMS <- function(arguments) {
+   prediction <- arguments[[1]]                     # arg1 is the prediction
+   target     <- arguments[[2]]                     # arg2 is the target
    residual   <- prediction - target
    result     <- mean((prediction - target)^2)
    return(result)
@@ -93,8 +94,8 @@ error.MSE <- function(arguments) {
 #                         ERROR LMLS
 ###############################################################################
 error.LMLS <- function(arguments) {
-   prediction <- arguments[[1]]
-   target     <- arguments[[2]]
+   prediction <- arguments[[1]]                     # arg1 is the prediction
+   target     <- arguments[[2]]                     # arg2 is the target
    residual   <- prediction - target 
    result     <- mean(log(1 + residual^2 / 2))
    return(result)
@@ -103,16 +104,16 @@ error.LMLS <- function(arguments) {
 #                          ERROR TAO
 ###############################################################################
 error.TAO <- function(arguments) {
-   prediction <- arguments[[1]]        # arg1 is the prediction
-   target     <- arguments[[2]]        # arg2 is the target
-   Stao       <- arguments[[3]]$Stao   # arg3 is net$other.elements
+   prediction <- arguments[[1]]                     # arg1 is the prediction
+   target     <- arguments[[2]]                     # arg2 is the target
+   Stao       <- arguments[[3]]$other.elements$Stao # arg3 is net
    residual   <- prediction - target 
    
    n.residual <- nrow(residual)
    perf <- NA
    
    scaled.residual <- residual / Stao
-   c1  <- 2.56
+   c1  <- 1.56
    c2  <- 6.08
    bf  <- c1^2 / 12 
 
@@ -120,7 +121,7 @@ error.TAO <- function(arguments) {
    h2  <- hfun(scaled.residual, c2)
    
    
-   new.Stao <- Stao*sqrt(sum(h1)/(n.residual * bf))  # n.residuals o n.residuals*n.output.neurons ??
+   new.Stao <- Stao*sqrt(sum(h1)/(n.residual * bf))  # n.residuals o n.residuals*n.output.MLPneurons ??
    tao.error.squared <- new.Stao^2 * mean(h2)
    return(list(perf=tao.error.squared, Stao=new.Stao))
 }

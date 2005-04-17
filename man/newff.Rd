@@ -1,18 +1,16 @@
 \encoding{latin1}
 \name{newff}
 \alias{newff}
-\title{ Feedforward Neural Network}
+\title{Create a Multilayer Feedforward Neural Network}
 \description{Creates a feedforward artificial neural network according to the structure established by the AMORE package standard.}
-\usage{newff(n.inputs, n.hidden, n.outputs, learning.rate.global, momentum.global, error.criterium, Stao, hidden.layer, output.layer) }
+\usage{newff(n.neurons, learning.rate.global, momentum.global, error.criterium, Stao, hidden.layer, output.layer, method) }
 \arguments{
-\item{n.inputs}{Number of input neurons or predictors.}
-\item{n.hidden}{Number of hidden layer neurons.}
-\item{n.outputs}{Number of output layer neurons.}
-\item{learning.rate.global}{Learning rate.}
-\item{momentum.global}{Momentum (Set to 0 if you do not want to use it).}
-\item{error.criterium}{ Criterium used to measure to proximity of the neural network prediction to its target. Currently we can choose amongst: 
+\item{n.neurons}{Numeric vector containing the number of neurons of each layer. The first element of the vector is the number of input neurons, the last is the number of output neurons and the rest are the number of neuron of the different hidden layers.}
+\item{learning.rate.global}{Learning rate at which every neuron is trained.}
+\item{momentum.global}{Momentum for every neuron. Needed by several training methods.}
+\item{error.criterium}{Criterium used to measure to proximity of the neural network prediction to its target. Currently we can choose amongst: 
 \itemize{
-\item "MSE": Mean Squared Error
+\item "LMS": Least Mean Squares.
 \item "LMLS": Least Mean Logarithm Squared (Liano 1996).
 \item "TAO": TAO Error (Pernia, 2004).
 }}
@@ -23,10 +21,18 @@
 \item "tansig". 
 \item "sigmoid".
 \item "hardlim".
+\item "custom": The user must manually define the f0 and f1 elements of the neurons.
 }}
 \item{output.layer}{Activation function of the hidden layer neurons according to the former list shown above.}
+\item{method}{Prefered training method. Currently it can be:
+\itemize{
+\item "ADAPTgd": Adaptative gradient descend.
+\item "ADAPTgdwm": Adaptative gradient descend with momentum. 
+\item "BATCHgd": BATCH gradient descend.
+\item "BATCHgdwm": BATCH gradient descend with momentum.
 }}
-\value{\emph{newff} returns a feedforward neural network object.}
+}}
+\value{\emph{newff} returns a multilayer feedforward neural network object.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -43,7 +49,7 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{init.neuron}}, \code{\link{random.init.NeuralNet}}, \code{\link{random.init.neuron}}, \code{\link{select.activation.function}} , \code{\link{init.neuron}}
+\code{\link{init.MLPneuron}}, \code{\link{random.init.MLPnet}}, \code{\link{random.init.MLPneuron}}, \code{\link{select.activation.function}} }
 }
 
 \examples{
@@ -54,8 +60,12 @@ library(AMORE)
 P <- matrix(sample(seq(-1,1,length=1000), 1000, replace=FALSE), ncol=1) 
 # The network will try to approximate the target P^2
 target <- P^2                                   
-#We create a feedforward network, with 2 neurons in the hidden layer. Tansig and Purelin activation functions.
-net <- newff(n.inputs=1,n.hidden=2,n.outputs=1,learning.rate.global=1e-1, momentum.global=0.5 , error.criterium="MSE", hidden.layer="tansig", output.layer="purelin")
-net <- train(net,P,target,n.epochs=100, g=adapt.NeuralNet,error.criterium="MSE", Stao=NA, report=TRUE, show.step=10 )
+# We create a feedforward network, with two hidden layers.
+# The first hidden layer has three neurons and the second has two neurons.
+# The hidden layers have got Tansig activation functions and the output layer is Purelin.
+net <- newff(n.neurons=c(1,3,2,1), learning.rate.global=1e-2, momentum.global=0.5,
+        error.criterium="LMS", Stao=NA, hidden.layer="tansig", 
+        output.layer="purelin", method="ADAPTgdwm")
+net <- train(net, P, target, n.epochs=150, error.criterium="LMS", report=TRUE, show.step=5 )
 }
 \keyword{neural}

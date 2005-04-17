@@ -19,6 +19,6 @@ Francisco Javier Martinez de Pisón. \email{francisco.martinez@dim.unirioja.es}\c
 Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 }
 \seealso{
-\code{\link{init.neuron}}, \code{\link{newff}}
+\code{\link{init.MLPneuron}}, \code{\link{newff}}
 }
 \keyword{neural}

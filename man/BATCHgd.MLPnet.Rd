@@ -1,22 +1,21 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
-
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
-
+\name{BATCHgd.MLPnet}
+\alias{BATCHgd.MLPnet}
+\alias{BATCHgd.MLPnet.R}
+\title{Batch gradient descent (without momentum) training}
+\description{Modifies the neural network weights and biases according to the training set. Mostly written to be called by the \link{train}.}
 \usage{
-training.report(net,P,T, epoch, error.criterium)
+BATCHgd.MLPnet(net,P,T)
+BATCHgd.MLPnet.R(net,P,T)
 }
+
 \arguments{
 \item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+\item{P}{Input values of the training pattern.}
+\item{T}{Target values to reach at the network outputs.}
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\value{These functions return a neural network object modified according to the chosen data.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -32,8 +31,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
+\code{\link{train}} 
 }
+
 
 \keyword{neural}
 

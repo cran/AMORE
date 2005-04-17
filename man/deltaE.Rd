@@ -1,34 +1,34 @@
 \encoding{latin1}
 \name{error.TAO}
-\alias{error.MSE}
+\alias{error.LMS}
 \alias{error.LMLS}
 \alias{error.TAO}
-\alias{deltaE.MSE}
+\alias{deltaE.LMS}
 \alias{deltaE.LMLS}
 \alias{deltaE.TAO}
 
 \title{Neural network training error criteria.}
 
 \description{The error functions calculate the goodness of fit of a neural network according to certain criterium:
-\item MSE:  Mean Squared Error. Least Mean Squares minimization.
+\item LMS:  Least Mean Squares Error.
 \item LMLS: Least Mean Log Squares minimization. 
 \item TAO:  TAO error minimization.
-The deltaE functions calculate the corresponding influence functions.
+The deltaE functions calculate the influence functions of their error criteria.
 }
 
 \usage{
-error.MSE(arguments)
+error.LMS(arguments)
 error.LMLS(arguments)
 error.TAO(arguments)
-deltaE.MSE(arguments)
+deltaE.LMS(arguments)
 deltaE.LMLS(arguments)
 deltaE.TAO(arguments)
 }
 \arguments{
 \item{arguments}{List of arguments to pass to the functions.
-   \item The first element is the prediction of the neural network.
-   \item The second element is the target value.
-   \item A third element is needed for the TAO method containing the value of the S parameter.}
+   \item The first element is the prediction of the neuron.
+   \item The second element is the corresponding component of the target vector.
+   \item The third element is the whole net. This allows the TAO criterium to know the value of the S parameter and eventually ( next minor update) will allow the user to apply regularization criteria.}
 }
 
 \value{This functions return the error and influence function criteria.}
@@ -48,7 +48,7 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}, \code{\link{train.compare}}
+\code{\link{train}}
 }
 
 \keyword{neural}

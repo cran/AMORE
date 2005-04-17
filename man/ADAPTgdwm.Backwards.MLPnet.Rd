@@ -1,15 +1,15 @@
 \encoding{latin1}
-\name{backpropagate.adapt.R.NeuralNet}
-\alias{backpropagate.adapt.R.NeuralNet}
-\alias{backpropagate.adapt.C.NeuralNet}
+\name{ADAPTgdwm.Backwards.MLPnet}
+\alias{ADAPTgdwm.Backwards.MLPnet}
+\alias{ADAPTgdwm.Backwards.MLPnet.R}
 
 
-\title{Backpropagates the single pattern error modifying accordingly the Neural Network's weights and biases.}
-\description{ Mainly written to be called by the adapt.R.NeuralNet function. Currently two versions are available: the original R code function (backpropagate.adapt.R.NeuralNet) has kept for educational purposses while the C code version (\link{backpropagate.adapt.C.NeuralNet}) provides higher speeds of executions and thus is most likely the one to be preferred.}
+\title{Backpropagates the single pattern error modifying accordingly the Neural Network's weights and biases in the ADAPTgdwm training method.}
+\description{ Mainly written to be called by the ADAPTgdwm.MLPnet function.}
 
 \usage{
-backpropagate.adapt.R.NeuralNet(net,target)
-backpropagate.adapt.C.NeuralNet(net,target)
+ADAPTgdwm.Backwards.MLPnet(net,target)
+ADAPTgdwm.Backwards.MLPnet.R(net,target)
 }
 
 \arguments{
@@ -33,7 +33,7 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{backpropagate.adapt.R.NeuralNet}}, \code{\link{adapt.R.NeuralNet}}, \code{\link{train}}, \code{\link{train.compare}}
+\code{\link{ADAPTgdwm.MLPnet}}, \code{\link{train}}
 }
 
 

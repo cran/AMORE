@@ -1,19 +1,18 @@
 \encoding{latin1}
-\name{set.learning.rate.and.momentum}
-\alias{set.learning.rate.and.momentum}
-\title{Set Learning rate and momentum.}
-\description{This function sets the learning rate and momentum of every neuron in a given neural network.}
-\usage{
-set.learning.rate.and.momentum(net, learning.rate, momentum)
-}
+\name{sim.Forward.MLPneuron}
+\alias{sim.Forward.MLPneuron}
+
+\title{Simulate a neuron response from a single input vector.}
+\description{Performs the simulation of a neuron propagating the input signals to the neurons's output. Mainly used by the \code{\link{sim.Forward.MLPnet}} function.}
+
+\usage{sim.Forward.MLPneuron(net,ind.MLPneuron) }
 
 \arguments{
-\item{net}{Neural Network to train.}
-\item{learning.rate}{Learning rate to be set in every neuron.}
-\item{momentum}{Momentum to be set on every neuron.}
+\item{net}{Neural Network to simulate.}
+\item{ind.MLPneuron}{Index of the neuron to simulate.}
 }
 
-\value{This function returns a neural network object with the established values of the learning rate and momentum in every neuron.}
+\value{This function returns the propagated neuron.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -29,8 +28,8 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}, \code{\link{train.compare}}
+\code{\link{sim.Forward.MLPnet}} }
 }
 
-
 \keyword{neural}
+

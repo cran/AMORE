@@ -1,22 +1,21 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
+\name{BATCHgdwm.UpdateWeights.MLPneuron}
+\alias{BATCHgdwm.UpdateWeights.MLPneuron}
 
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+
+\title{Update weights.}
+\description{This function is used after the forward pass to change the values of the weights and the bias.}
 
 \usage{
-training.report(net,P,T, epoch, error.criterium)
-}
-\arguments{
-\item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+BATCHgdwm.UpdateWeights.MLPneuron(net, ind.MLPneuron)
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\arguments{
+\item{net}{Neural Network that is being trained.}
+\item{ind.MLPneuron}{Index of the neuron to be updated.}
+}
+
+\value{This function returns with the weights and bias values accordingly modified.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -32,8 +31,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
+\code{\link{BATCHgdwm.UpdateWeights.MLPnet}}, \code{\link{train}} 
 }
+
 
 \keyword{neural}
 

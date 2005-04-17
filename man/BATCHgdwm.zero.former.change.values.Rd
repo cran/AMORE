@@ -1,22 +1,16 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
+\name{BATCHgdwm.zero.former.change.values}
+\alias{BATCHgdwm.zero.former.change.values}
 
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+\title{Sets former change value variables to zero.}
 
-\usage{
-training.report(net,P,T, epoch, error.criterium)
-}
+\description{Sets to zero the \emph{former.weight.change} and \emph{former.weight.bias} variables of every neuron.}
+
+\usage{BATCHgdwm.zero.former.change.values(net)}
 \arguments{
-\item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+\item{net}{The neural network to modify.}
 }
-
-\value{This function does not return any value. Just useful for printing and plotting.}
+\value{This functions returns a modified neural network with zeroes at the former change value variables.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -31,9 +25,6 @@ Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
-\seealso{
-\code{\link{train}}
-}
-
 \keyword{neural}
+
 

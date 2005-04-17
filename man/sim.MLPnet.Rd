@@ -1,22 +1,24 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
+\name{sim.MLPnet}
+\alias{sim.MLPnet}
+\alias{sim.MLPnet.R}
+\alias{sim.MLPnet.C}
 
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+\title{Performs the simulation of a neural network from an input data set.}
+\description{This function calculates the output values of the neural network for a given data set. Various versions are provided according to different degrees of C code conversion. The \emph{sim.MLPnet} function is the latest and quickest.}
 
 \usage{
-training.report(net,P,T, epoch, error.criterium)
-}
-\arguments{
-\item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+sim.MLPnet(net,P)
+sim.MLPnet.R(net,P)
+sim.MLPnet.C(net,P)
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\arguments{
+\item{net}{Neural Network to simulate.}
+\item{P}{Data Set input values.}
+}
+
+\value{This function returns a matrix containing the output values of the neural network for the given data set.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr

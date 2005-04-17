@@ -1,22 +1,23 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
+\name{ADAPTgd.Backwards.MLPnet}
+\alias{ADAPTgd.Backwards.MLPnet}
+\alias{ADAPTgd.Backwards.MLPnet.R}
 
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+
+\title{Backpropagates the single pattern error modifying accordingly the Neural Network's weights and biases in the ADAPTgd training method.}
+\description{ Mainly written to be called by the ADAPTgd.MLPnet function.}
 
 \usage{
-training.report(net,P,T, epoch, error.criterium)
-}
-\arguments{
-\item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+ADAPTgd.Backwards.MLPnet(net,target)
+ADAPTgd.Backwards.MLPnet.R(net,target)
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\arguments{
+\item{net}{Neural Network to train.}
+\item{target}{Training output vector.}
+}
+
+\value{This function returns a Neural Network object with weights and biases adjusted by the adaptative backpropagation (without momentum) method.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -32,8 +33,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
+\code{\link{ADAPTgd.MLPnet}}, \code{\link{train}}
 }
+
 
 \keyword{neural}
 

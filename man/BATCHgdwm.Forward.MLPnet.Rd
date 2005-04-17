@@ -1,22 +1,22 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
-
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+\name{BATCHgdwm.Forward.MLPnet}
+\alias{BATCHgdwm.Forward.MLPnet}
+\alias{BATCHgdwm.Forward.MLPnet.R}
+\title{Performs the forward pass in the BATCHgdwm training method.}
+\description{Written to be called by the \code{\link{BATCHgdwm.MLPnet}} function. }
 
 \usage{
-training.report(net,P,T, epoch, error.criterium)
-}
+BATCHgdwm.Forward.MLPnet(net,P, T)
+BATCHgdwm.Forward.MLPnet.R(net,P, T)
+ }
+
 \arguments{
-\item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+\item{net}{Neural Network to adapt.}
+\item{P}{Input training set to propagate.}
+\item{T}{Target data set to approximate.}
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\value{This function returns the forward passed Neural Network.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -32,8 +32,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
+\code{\link{BATCHgdwm.Forward.MLPneuron}}, \code{\link{BATCHgdwm.MLPnet}}
 }
+
 
 \keyword{neural}
 

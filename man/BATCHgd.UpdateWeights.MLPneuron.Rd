@@ -1,24 +1,21 @@
 \encoding{latin1}
-\name{sim.C.NeuralNet}
-\alias{sim.NeuralNet}
-\alias{sim.C.NeuralNet}
-\alias{sim.R.NeuralNet}
+\name{BATCHgd.UpdateWeights.MLPneuron}
+\alias{BATCHgd.UpdateWeights.MLPneuron}
 
-\title{Performs the simulation of a neural network providing the output values.}
-\description{This function calculates the output values of the neural network for a given data set. Various versions are provided according to different degrees of C code conversion. The \emph{sim.NeuralNet} function is the latest and quickest.}
+
+\title{Update weights.}
+\description{This function is used after the forward pass to change the values of the weights and the bias.}
 
 \usage{
-sim.NeuralNet(net,P)
-sim.R.NeuralNet(net,P)
-sim.C.NeuralNet(net,P)
+BATCHgd.UpdateWeights.MLPneuron(net, ind.MLPneuron)
 }
 
 \arguments{
-\item{net}{Neural Network to simulate.}
-\item{P}{Data Set input values.}
+\item{net}{Neural Network that is being trained.}
+\item{ind.MLPneuron}{Index of the neuron to be updated.}
 }
 
-\value{This function returns a matrix containing the output values of the neural network for the given data set.}
+\value{This function returns with the weights and bias values accordingly modified.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -34,8 +31,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
+\code{\link{BATCHgd.UpdateWeights.MLPnet}}, \code{\link{train}} 
 }
+
 
 \keyword{neural}
 

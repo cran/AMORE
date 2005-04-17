@@ -1,18 +1,22 @@
 \encoding{latin1}
-\name{forward.adapt.R.neuron}
-\alias{forward.adapt.R.neuron}
+\name{BATCHgd.Forward.MLPnet}
+\alias{BATCHgd.Forward.MLPnet}
+\alias{BATCHgd.Forward.MLPnet.R}
+\title{Performs the forward pass in the BATCHgd training method.}
+\description{Written to be called by the \code{\link{BATCHgd.MLPnet}} function. }
 
-\title{Perform the neuron forward pass in the adaptative training.}
-\description{This function is similar to \code{\link{forwardpass.R.neuron}} but the derivative of the activation function of the neuron is also calculated. }
-
-\usage{ forward.adapt.R.neuron(net,ind.neuron) }
+\usage{
+BATCHgd.Forward.MLPnet(net,P, T)
+BATCHgd.Forward.MLPnet.R(net,P, T)
+ }
 
 \arguments{
 \item{net}{Neural Network to adapt.}
-\item{ind.neuron}{Index of the neuron to forward pass.}
+\item{P}{Input training set to propagate.}
+\item{T}{Target data set to approximate.}
 }
 
-\value{This function returns the forward passed neuron.}
+\value{This function returns the forward passed Neural Network.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -28,8 +32,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{forwardpass.R.NeuralNet}}, \code{\link{forward.adapt.R.NeuralNet}}
+\code{\link{BATCHgd.Forward.MLPneuron}}, \code{\link{BATCHgd.MLPnet}}
 }
+
 
 \keyword{neural}
 

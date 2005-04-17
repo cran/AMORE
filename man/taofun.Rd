@@ -36,7 +36,7 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}, \code{\link{train.compare}}
+\code{\link{train}}
 }
 
 \keyword{neural}

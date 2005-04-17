@@ -1,18 +1,21 @@
 \encoding{latin1}
-\name{forwardpass.R.neuron}
-\alias{forwardpass.R.neuron}
+\name{BATCHgd.UpdateWeights.MLPnet}
+\alias{BATCHgd.UpdateWeights.MLPnet}
+\alias{BATCHgd.UpdateWeights.MLPnet.R}
 
-\title{Simulate a neuron response.}
-\description{Performs the simulation of a neuron propagating the input signals to the neurons's output. Mainly used by the \code{link{forwardpass.R.NeuralNet}} function.}
+\title{Update weights.}
+\description{This function is used after the forward pass to change the values of the weights and the bias.}
 
-\usage{ forwardpass.R.neuron(net,ind.neuron) }
-
-\arguments{
-\item{net}{Neural Network to simulate.}
-\item{ind.neuron}{Index of the neuron to simulate.}
+\usage{
+BATCHgd.UpdateWeights.MLPnet(net)
+BATCHgd.UpdateWeights.MLPnet.R(net)
 }
 
-\value{This function returns the propagated neuron.}
+\arguments{
+\item{net}{Neural Network that is being trained.}
+}
+
+\value{This function returns with the weights and bias values accordingly modified.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -28,8 +31,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{forwardpass.R.NeuralNet}}, \code{\link{forward.adapt.R.NeuralNet}}
+\code{\link{BATCHgd.UpdateWeights.MLPneuron}}, \code{\link{train}} 
 }
+
 
 \keyword{neural}
 

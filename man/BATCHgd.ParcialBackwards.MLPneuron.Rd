@@ -1,22 +1,18 @@
 \encoding{latin1}
-\name{training.report}
-\alias{training.report}
-\title{Neural network training report generator function.}
+\name{BATCHgd.ParcialBackwards.MLPneuron}
+\alias{BATCHgd.ParcialBackwards.MLPneuron}
 
-\description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
+\title{Parcial Backwards.}
+\description{This function is used during the forward pass to take into account the residual of the current sample and to accumulate the corresponding weight and bias changes.}
 
-\usage{
-training.report(net,P,T, epoch, error.criterium)
-}
+\usage{BATCHgd.ParcialBackwards.MLPneuron(net, ind.MLPneuron)}
+
 \arguments{
 \item{net}{Neural Network to train.}
-\item{P}{Training set input values.}
-\item{T}{Training set output values}
-\item{epoch}{Current epoch.}
-\item{error.criterium}{Criterium used to measure the goodness of fit.}
+\item{ind.MLPneuron}{Index of the neuron that needs to suffer the backpropagation effect.}
 }
 
-\value{This function does not return any value. Just useful for printing and plotting.}
+\value{This function returns a neuron object with the \emph{delta}, \emph{sum.delta.x} and \emph{sum.delta.bias} accordingly modified.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -32,8 +28,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}}
+\code{\link{ADAPTgd.Backwards.MLPnet}}, \code{\link{ADAPTgd.MLPnet}}, \code{\link{train}} 
 }
+
 
 \keyword{neural}
 

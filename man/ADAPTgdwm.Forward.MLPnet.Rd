@@ -1,12 +1,14 @@
 \encoding{latin1}
-\name{forward.adapt.R.NeuralNet}
-\alias{forward.adapt.R.NeuralNet}
-\alias{forward.adapt.C.NeuralNet}
+\name{ADAPTgdwm.Forward.MLPnet}
+\alias{ADAPTgdwm.Forward.MLPnet}
+\alias{ADAPTgdwm.Forward.MLPnet.R}
+\title{Performs the forward pass in the ADAPTgdwm training method.}
+\description{Written to be called by the \code{\link{ADAPTgdwm.MLPnet}} function. }
 
-\title{Perform the forward pass in the adaptative training.}
-\description{This function is similar to \code{\link{forwardpass.R.NeuralNet}} but the derivative of the activation function of the Neural Network neurons are also calculated. }
-
-\usage{ forward.adapt.R.NeuralNet(net,Pvector) }
+\usage{
+ADAPTgdwm.Forward.MLPnet(net,Pvector)
+ADAPTgdwm.Forward.MLPnet.R(net,Pvector)
+ }
 
 \arguments{
 \item{net}{Neural Network to adapt.}
@@ -29,8 +31,9 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{forwardpass.R.neuron}}, \code{\link{forward.adapt.R.neuron}}
+\code{\link{ADAPTgdwm.Forward.MLPneuron}}, \code{\link{ADAPTgdwm.MLPnet}}
 }
+
 
 \keyword{neural}
 
