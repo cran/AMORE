@@ -1,53 +1,83 @@
 #include <string.h>
-
+#include <math.h>
+#include <stdlib.h>
 #include <R.h>
 #include <Rinternals.h>
 #include <Rdefines.h>
 #include "AMORE.h"
+
 /******************************************************************************************************************/
-SEXP sim_Forward_MLPneuron(SEXP net, SEXP ind_neuron, SEXP rho) {
-   SEXP neuron, args, R_fcall;
-   int ind_weight;
-   double x_input, a=0;
-   int considered_input;
-   PROTECT(neuron=VECTOR_ELT(NET_NEURONS, -1+INTEGER(ind_neuron)[0]) );
-   for (ind_weight=0; ind_weight < LENGTH(WEIGHTS); ind_weight++) {
-      considered_input = INTEGER(INPUT_LINKS)[ind_weight];
-      if (considered_input < 0 ) {
-         x_input = REAL(NET_INPUT)[-1-considered_input];
-      } else {
-         x_input = REAL(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, -1+considered_input),id_V0))[0];
+SEXP sim_Forward_MLPnet (SEXP net, SEXP Ptrans, SEXP ytrans, SEXP rho) {
+   int * Ptransdim, *ytransdim, fila, columna, Pcounter, ycounter;
+   int considered_input, ind_neuron, ind_other_neuron, that_neuron, that_aim, ind_weight;
+   double  x_input, a;
+   int epoch, n_epochs;
+
+   SEXP R_fcall, args, arg1, arg2, arg3;
+   SEXP aims;
+   struct AMOREneuron * ptneuron, * pt_that_neuron;
+   struct AMOREnet * ptnet;
+
+   double aux1, aux2;
+
+   Ptransdim = INTEGER(coerceVector(getAttrib(Ptrans, R_DimSymbol), INTSXP));
+   ytransdim = INTEGER(coerceVector(getAttrib(ytrans, R_DimSymbol), INTSXP));
+
+
+   ptnet = copynet_RC(net);
+
+   for (fila=0, Pcounter=0, ycounter=0; fila < Ptransdim[1]; fila++) {
+      for( columna =0; columna < Ptransdim[0] ; columna++, Pcounter++) {
+         ptnet->input[columna] =  REAL(Ptrans)[Pcounter];
       }
-      a +=  REAL(WEIGHTS)[ind_weight] * x_input;
-   }
-   a += REAL(BIAS)[0];
-
-   PROTECT(args=allocVector(REALSXP,1));   
-   REAL(args)[0] = a;
-   PROTECT(R_fcall = lang2(F0, args));
-   REAL(V0)[0]=REAL(eval (R_fcall, rho))[0];
-
-   UNPROTECT(3);
-   return neuron;
-}
-/******************************************************************************************************************/
-SEXP sim_Forward_MLPnet (SEXP net, SEXP Pvector, SEXP rho) {
-   int i,ind_layer, ind_neuron;
-   SEXP this_neuron;
-
-   for ( i=0; i<LENGTH(Pvector); i++) {
-      REAL(NET_INPUT)[i] = REAL(Pvector)[i];
-   }
-   PROTECT(this_neuron=allocVector(INTSXP,1));
-   for ( ind_layer=1; ind_layer < LENGTH(NET_LAYERS); ind_layer++ ) {
-      for ( ind_neuron=0; ind_neuron < LENGTH( VECTOR_ELT(NET_LAYERS, ind_layer) ) ; ind_neuron++ ) {
-         INTEGER(this_neuron)[0] = INTEGER(VECTOR_ELT(NET_LAYERS, ind_layer))[ind_neuron];
-         sim_Forward_MLPneuron(net, this_neuron, rho);
+      for (ind_neuron=0; ind_neuron <= ptnet->last_neuron ; ind_neuron++ ) {
+         ptneuron = ptnet->neurons[ind_neuron];
+         for (a=0.0, ind_weight=0; ind_weight <= ptneuron->last_input_link; ind_weight++) {
+            considered_input = ptneuron->input_links[ind_weight];
+            if (considered_input < 0 ) {
+               x_input = ptnet->input[-1-considered_input];
+            } else {
+               x_input = ptnet->neurons[-1+considered_input]->v0;
+            }
+            a +=  ptneuron->weights[ind_weight] * x_input;
+         }
+         a += ptneuron->bias;
+         switch (ptneuron->actf) {
+            case TANSIG_ACTF:
+               ptneuron->v0 =  a_tansig * tanh(a * b_tansig); 
+               break;
+            case SIGMOID_ACTF:
+               ptneuron->v0 =  1/(1+exp(- a_sigmoid * a)) ; 
+               break;
+            case PURELIN_ACTF:
+               ptneuron->v0 = a; 
+               break;
+            case HARDLIM_ACTF:
+               if (a>=0) {
+                  ptneuron->v0 = 1.0;
+               } else {
+                  ptneuron->v0 = 0.0;
+               }
+               break;
+            case CUSTOM_ACTF:
+               PROTECT(args    = allocVector(REALSXP,1));
+               REAL(args)[0]   = a;
+               PROTECT(R_fcall = lang2(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, ind_neuron), id_F0), args));
+               ptneuron->v0    = REAL(eval (R_fcall, rho))[0];
+               UNPROTECT(2);
+             break; 
+         }
       }
-   }
-   UNPROTECT(1);
-   return(net);
+      for (ind_neuron=0; ind_neuron < ytransdim[0] ; ind_neuron++ ) {
+         REAL(ytrans)[ycounter++] = ptnet->layers[ptnet->last_layer][ind_neuron]->v0;
+      }
+    } 
+
+    return (ytrans);
 }
+
+
+
 /******************************************************************************************************************/
 
 print_MLPneuron (SEXP neuron) {
@@ -144,3 +174,4 @@ int i;
 
 }
 /******************************************************************************************************************/
+

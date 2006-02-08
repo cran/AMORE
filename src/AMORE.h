@@ -34,7 +34,7 @@
 #define id_V1                    9
 #define id_F0                    10
 #define id_F1                    11
-#define id_METHOD                12                  
+#define id_METHOD                12
 #define id_METHOD_DEP_VARIABLES  13
 /**/
 #define ID                       VECTOR_ELT(neuron,id_ID)
@@ -99,6 +99,95 @@
 
 
 /* OTHER ELEMENTS */
-#define id_STAO 0
+#define id_DELTAE_NAME     0
+#define id_DELTAE_F        1
+#define id_DELTAE_STAO     2
+
+#define DELTAE_NAME  VECTOR_ELT(VECTOR_ELT(net,id_NET_DELTAE), id_DELTAE_NAME ) 
+#define DELTAE_F     VECTOR_ELT(VECTOR_ELT(net,id_NET_DELTAE), id_DELTAE_F    )
+#define DELTAE_STAO  VECTOR_ELT(VECTOR_ELT(net,id_NET_DELTAE), id_DELTAE_STAO )
+
 /**/
-#define STAO  VECTOR_ELT(VECTOR_ELT(net,id_OTHER_ELEMENTS),id_STAO)
+#define CUSTOM_NAME 0
+#define LMS_NAME    1
+#define LMLS_NAME   2
+#define TAO_NAME    3
+
+#define CUSTOM_ACTF  0
+#define TANSIG_ACTF  1
+#define SIGMOID_ACTF 2
+#define PURELIN_ACTF 3 
+#define HARDLIM_ACTF 4
+
+#define TYPE_HIDDEN 0
+#define TYPE_OUTPUT 1
+
+#define METHOD_ADAPTgd   0
+#define METHOD_ADAPTgdwm 1
+#define METHOD_BATCHgd   2
+#define METHOD_BATCHgdwm 3
+
+struct AMOREneuron {
+   int      id, type, actf;
+   int      last_input_link, last_output_link;
+   int    * input_links;
+   double * weights;
+   struct AMOREneuron ** output_links;
+   int    * output_aims;
+   double   bias;
+   double   v0;
+   double   v1;
+   int      method;
+   union {
+      struct {
+         double   delta;
+         double   learning_rate;
+      }  adaptgd;
+      struct {
+         double   delta;
+         double   learning_rate;
+         double   momentum;
+         double * former_weight_change;
+         double   former_bias_change;
+      } adaptgdwm;
+      struct {
+         double   delta;
+         double   learning_rate;
+         double * sum_delta_x;
+         double   sum_delta_bias;
+      } batchgd;
+      struct {
+         double   delta;
+         double   learning_rate;
+         double * sum_delta_x;
+         double   sum_delta_bias;
+         double   momentum;
+         double * former_weight_change;
+         double   former_bias_change;
+      } batchgdwm;
+   } method_dep_variables;
+};
+
+struct AMOREnet {
+   struct AMOREneuron *** layers;
+   int  last_layer; 
+   int  * layer_size;
+   struct AMOREneuron ** neurons;
+   int      last_neuron;
+   double * input;
+   int      last_input;
+   double * output;
+   int      last_output;
+   double * target;
+   struct {
+      char  name;
+      double stao;
+   } deltaE;
+};
+
+
+
+struct AMOREnet * copynet_RC (SEXP net);
+void              copynet_CR (SEXP net, struct AMOREnet * ptnet);
+
+

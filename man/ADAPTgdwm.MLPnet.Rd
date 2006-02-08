@@ -1,21 +1,20 @@
 \encoding{latin1}
 \name{ADAPTgdwm.MLPnet}
 \alias{ADAPTgdwm.MLPnet}
-\alias{ADAPTgdwm.MLPnet.R}
-\title{Adaptative on-line gradient descent with momentum single pattern training}
-\description{Modifies the neural network weights and biases according to one pattern chosen from the training set. Mostly written to be called by the \link{train} function so as to be applied to the whole training set. The user may choose amongst two versions of the same function: The slower ADAPTgdwm.MLPnet.R was the original R code function and ADAPTgdwm.MLPnet is the C conversed function and the one that provides higher speeds of execution.}
+\title{Adaptative gradient descent with momentum training}
+\description{Adaptative gradient descent with momentum training method.}
 \usage{
-ADAPTgdwm.MLPnet(net,Pvector,target)
-ADAPTgdwm.MLPnet.R(net,Pvector,target)
+ADAPTgdwm.MLPnet(net,P, T,n.epochs)
 }
 
 \arguments{
 \item{net}{Neural Network to train.}
-\item{Pvector}{Input values of the training pattern.}
-\item{target}{Output values of the training pattern.}
+\item{P}{Input data set.}
+\item{T}{Target output data set.}
+\item{n.epochs}{Number of epochs to train}
 }
 
-\value{These functions return a neural network object modified according to the chosen pattern vector.}
+\value{This function returns a neural network object modified according to the input and target data set.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -31,7 +30,7 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}} 
+\code{\link{newff},\link{train},\link{ADAPTgd.MLPnet}} 
 }
 
 

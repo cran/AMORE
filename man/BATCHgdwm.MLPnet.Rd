@@ -1,21 +1,20 @@
 \encoding{latin1}
 \name{BATCHgdwm.MLPnet}
 \alias{BATCHgdwm.MLPnet}
-\alias{BATCHgdwm.MLPnet.R}
 \title{Batch gradient descent with momentum training}
-\description{Modifies the neural network weights and biases according to the training set. Mostly written to be called by the \link{train}.}
+\description{Modifies the neural network weights and biases according to the training set.}
 \usage{
-BATCHgdwm.MLPnet(net,P,T)
-BATCHgdwm.MLPnet.R(net,P,T)
+BATCHgdwm.MLPnet(net,P,T, n.epochs)
 }
 
 \arguments{
 \item{net}{Neural Network to train.}
-\item{P}{Input values of the training pattern.}
-\item{T}{Target values to reach at the network outputs.}
+\item{P}{Input data set.}
+\item{T}{Target output data set.}
+\item{n.epochs}{Number of epochs to train}
 }
 
-\value{These functions return a neural network object modified according to the chosen data.}
+\value{This functions returns a neural network object modified according to the chosen data.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
 Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
@@ -31,7 +30,7 @@ Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
 }
 
 \seealso{
-\code{\link{train}} 
+\code{\link{newff},\link{train},\link{BATCHgd.MLPnet}} 
 }
 
 

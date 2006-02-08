@@ -1,155 +1,158 @@
-#include <string.h>
 
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
 #include <R.h>
 #include <Rinternals.h>
 #include <Rdefines.h>
 #include "AMORE.h"
 
-/******************************************************************************************************************/
-/*   MLPnet Level */    /*  Forward and Backwards passes */
-/******************************************************************************************************************/
-SEXP ADAPTgd_Forward_MLPnet (SEXP net, SEXP Pvector, SEXP rho);
-SEXP ADAPTgd_Backwards_MLPnet (SEXP net, SEXP target, SEXP rho);
-/******************************************************************************************************************/
-/*   MLPneuron Level */
-/******************************************************************************************************************/
-SEXP ADAPTgd_Forward_MLPneuron(SEXP net, SEXP ind_neuron, SEXP rho);
-SEXP ADAPTgd_Backwards_MLPneuron(SEXP net, SEXP ind_neuron, SEXP rho) ;
-/******************************************************************************************************************/
 
 
-/******************************************************************************************************************/
-SEXP ADAPTgd_Forward_MLPnet (SEXP net, SEXP Pvector, SEXP rho) {
-/******************************************************************************************************************/
-int i,ind_layer, ind_neuron;
-SEXP this_neuron;
+/**
+##########################################################
+#	Adaptative Gradient Descent (without momentum)
+##########################################################
+**/
 
-   for ( i=0; i < LENGTH(Pvector); i++) {
-      REAL(NET_INPUT)[i] = REAL(Pvector)[i];
-   }
-   PROTECT(this_neuron=allocVector(INTSXP,1));
-   for ( ind_layer=1; ind_layer < LENGTH(NET_LAYERS); ind_layer++ ) {
-      for ( ind_neuron=0; ind_neuron < LENGTH( VECTOR_ELT(NET_LAYERS, ind_layer) ) ; ind_neuron++ ) {
-         INTEGER(this_neuron)[0] = INTEGER(VECTOR_ELT(NET_LAYERS, ind_layer))[ind_neuron];
-         ADAPTgd_Forward_MLPneuron(net, this_neuron, rho);
+
+
+
+SEXP ADAPTgd_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs, SEXP rho) {
+   int * Ptransdim, *Ttransdim, fila, columna, Pcounter, Tcounter;
+   int considered_input, ind_neuron, ind_other_neuron, that_neuron, that_aim, ind_weight;
+   double aux_DELTA, x_input, a, bias_change, weight_change;
+   int epoch, n_epochs;
+
+   SEXP R_fcall, args, arg1, arg2, arg3;
+   SEXP aims, net;
+   struct AMOREneuron * ptneuron, * pt_that_neuron;
+   struct AMOREnet * ptnet;
+
+   double aux1, aux2;
+
+   PROTECT(net=duplicate(origNet));
+   Ptransdim = INTEGER(coerceVector(getAttrib(Ptrans, R_DimSymbol), INTSXP));
+   Ttransdim = INTEGER(coerceVector(getAttrib(Ttrans, R_DimSymbol), INTSXP));
+   n_epochs  = INTEGER(nepochs)[0];
+
+   ptnet = copynet_RC(net);
+   for (epoch=0; epoch < n_epochs; epoch++) {
+      for (fila=0, Pcounter=0, Tcounter=0; fila < Ptransdim[1]; fila++) {
+         for( columna =0; columna < Ptransdim[0] ; columna++, Pcounter++) {
+            ptnet->input[columna] =  REAL(Ptrans)[Pcounter];
+         }
+         for( columna =0; columna < Ttransdim[0] ; columna++, Tcounter++) {
+            ptnet->target[columna] =  REAL(Ttrans)[Tcounter];
+         }
+         /* BEGIN   void adaptgd_forward_mlpnet(AMOREnet * ptnet)   */
+         for (ind_neuron=0; ind_neuron <= ptnet->last_neuron ; ind_neuron++ ) {
+            ptneuron = ptnet->neurons[ind_neuron];
+            /* BEGIN adaptgd_forward_MLPneuron */
+            for (a=0.0, ind_weight=0; ind_weight <= ptneuron->last_input_link; ind_weight++) {
+               considered_input = ptneuron->input_links[ind_weight];
+               if (considered_input < 0 ) {
+                  x_input = ptnet->input[-1-considered_input];
+               } else {
+                  x_input = ptnet->neurons[-1+considered_input]->v0;
+               }
+               a +=  ptneuron->weights[ind_weight] * x_input;
+            }
+            a += ptneuron->bias;
+            switch (ptneuron->actf) {
+               case TANSIG_ACTF:
+                  ptneuron->v0 =  a_tansig * tanh(a * b_tansig); 
+                  ptneuron->v1 =  b_tansig / a_tansig * (a_tansig - ptneuron->v0)*(a_tansig + ptneuron->v0);
+                  break;
+               case SIGMOID_ACTF:
+                  ptneuron->v0 =  1/(1+exp(- a_sigmoid * a)) ; 
+                  ptneuron->v1 =  a_sigmoid * ptneuron->v0 * ( 1 - ptneuron->v0 );
+                  break;
+               case PURELIN_ACTF:
+                  ptneuron->v0 = a; 
+                  ptneuron->v1 = 1;
+                  break;
+               case HARDLIM_ACTF:
+                  if (a>=0) {
+                     ptneuron->v0 = 1.0;
+                  } else {
+                     ptneuron->v0 = 0.0;
+                  }
+                  ptneuron->v1 = NA_REAL;
+                 break;
+               case CUSTOM_ACTF:
+                  PROTECT(args    = allocVector(REALSXP,1));
+                  REAL(args)[0]   = a;
+                  PROTECT(R_fcall = lang2(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, ind_neuron), id_F0), args));
+                  ptneuron->v0    = REAL(eval (R_fcall, rho))[0];
+                  PROTECT(args    = allocVector(REALSXP,1));   
+                  REAL(args)[0]   = a;
+                  PROTECT(R_fcall = lang2(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, ind_neuron), id_F1), args));
+                  ptneuron->v1    = REAL(eval (R_fcall, rho))[0];
+                  UNPROTECT(4);
+             break; 
+            }
+         /* END adaptgd_forward_MLPneuron */
+         }
+         /* END     void adaptgd_forward_mlpnet(AMOREnet * ptnet)   */
+
+
+         /* BEGIN   void adaptgd_backwards_MLPnet (AMOREnet * ptnet, SEXP rho) */
+         for ( ind_neuron=ptnet->last_neuron; ind_neuron >=0;  ind_neuron-- ) {
+            ptneuron=ptnet->neurons[ind_neuron];
+         /**/
+            if (ptneuron->type==TYPE_OUTPUT) {
+               switch(ptnet->deltaE.name) {
+                  case LMS_NAME:
+                     aux_DELTA = ptneuron->v0 - ptnet->target[-1+ptneuron->output_aims[0]];
+                  break;
+                  case LMLS_NAME:
+                     aux_DELTA = ptneuron->v0- ptnet->target[-1+ptneuron->output_aims[0]];
+                     aux_DELTA = aux_DELTA / (1 + aux_DELTA*aux_DELTA / 2);
+                     break;
+                  default:   /* if (ptneuron->deltaE.name==TAO_NAME)   de momento tao es como custom*/ 
+                    /* ####### OJO FALTA cambiar el TAO  */
+                    PROTECT(args  = allocVector(VECSXP,3)     );
+                    PROTECT(arg3  = net                       );
+                    PROTECT(arg2  = allocVector(REALSXP,1)    );
+                    PROTECT(arg1  = allocVector(REALSXP,1)    );
+                    REAL(arg1)[0] = ptneuron->v0;
+                    REAL(arg2)[0] =  ptnet->target[-1+ptneuron->output_aims[0]];
+                    SET_VECTOR_ELT(args, 0, arg1);
+                    SET_VECTOR_ELT(args, 1, arg2);
+                    SET_VECTOR_ELT(args, 2, arg3);
+                    PROTECT(R_fcall = lang2(DELTAE_F, args) );
+                    aux_DELTA = REAL(eval (R_fcall, rho))[0];
+                    UNPROTECT(5);
+                    break;
+               };
+            } else {
+               aux_DELTA = 0.0;
+               for ( ind_other_neuron=0; ind_other_neuron <= ptneuron->last_output_link ; ind_other_neuron++ ) {
+                  pt_that_neuron = ptneuron->output_links[ind_other_neuron];
+                  that_aim       = -1+ptneuron->output_aims[ind_other_neuron];
+                  aux_DELTA     += pt_that_neuron->method_dep_variables.adaptgd.delta * pt_that_neuron->weights[that_aim] ;
+               }
+            }
+            ptneuron->method_dep_variables.adaptgd.delta = aux_DELTA * ptneuron->v1;
+            bias_change = - ptneuron->method_dep_variables.adaptgd.learning_rate * ptneuron->method_dep_variables.adaptgd.delta;
+            ptneuron->bias += bias_change;
+            for (ind_weight = 0; ind_weight <= ptneuron->last_input_link; ind_weight++) {
+               considered_input = ptneuron->input_links[ind_weight];
+               if (considered_input < 0 ) {
+                  x_input = ptnet->input[-1-considered_input];
+               } else {
+                  x_input = ptnet->neurons[-1+considered_input]->v0;
+               }
+               weight_change  =  - ptneuron->method_dep_variables.adaptgd.learning_rate * ptneuron->method_dep_variables.adaptgd.delta  * x_input ;
+               ptneuron->weights[ind_weight] += weight_change;
+            }
+            /**/
+         }
+         /* END    void adaptgd_backwards_MLPnet (AMOREnet * ptnet, SEXP rho) */
       }
    }
+   copynet_CR (net, ptnet);
    UNPROTECT(1);
-   return(net);
+   return (net);
 }
-/******************************************************************************************************************/
-SEXP ADAPTgd_Backwards_MLPnet (SEXP net, SEXP target, SEXP rho) {
-/******************************************************************************************************************/
-int i,ind_layer, ind_neuron;
-SEXP this_neuron;
-   for ( i=0; i < LENGTH(NET_TARGET); i++) {
-      REAL(NET_TARGET)[i] = REAL(target)[i];
-   }
-
-   PROTECT(this_neuron=allocVector(INTSXP,1));
-   for ( ind_layer=-1+LENGTH(NET_LAYERS); ind_layer>0; ind_layer-- ) {
-      for ( ind_neuron=-1+LENGTH( VECTOR_ELT(NET_LAYERS, ind_layer) ); ind_neuron >=0;  ind_neuron-- ) {
-         INTEGER(this_neuron)[0] = INTEGER(VECTOR_ELT(NET_LAYERS, ind_layer))[ind_neuron];
-         ADAPTgd_Backwards_MLPneuron(net, this_neuron, rho );
-      }
-   }
-   UNPROTECT(1);
-   return(net);
-}
-
-/******************************************************************************************************************/
-SEXP ADAPTgd_Forward_MLPneuron(SEXP net, SEXP ind_neuron, SEXP rho) {
-/******************************************************************************************************************/
-   SEXP neuron, args, R_fcall;
-   int ind_weight;
-   double x_input, a=0;
-   int considered_input;
-   PROTECT(neuron=VECTOR_ELT(NET_NEURONS, -1+INTEGER(ind_neuron)[0] ) );
-   for (ind_weight=0; ind_weight < LENGTH(WEIGHTS); ind_weight++) {
-      considered_input = INTEGER(INPUT_LINKS)[ind_weight];
-      if (considered_input < 0 ) {
-         x_input = REAL(NET_INPUT)[-1-considered_input];
-      } else {
-         x_input = REAL(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, -1+considered_input),id_V0))[0];
-      }
-      a +=  REAL(WEIGHTS)[ind_weight] * x_input;
-   }
-   a += REAL(BIAS)[0];
-   PROTECT(args=allocVector(REALSXP,1));   
-   REAL(args)[0] = a;
-   PROTECT(R_fcall = lang2(F0, args));
-   REAL(V0)[0]=REAL(eval (R_fcall, rho))[0];
-   if ( strcmp(CHAR(STRING_ELT(ACTIVATION_FUNCTION,0)),"tansig")==0) {
-       REAL(V1)[0] =  b_tansig / a_tansig * (a_tansig - REAL(V0)[0])*(a_tansig + REAL(V0)[0]);
-   } else if ( strcmp(CHAR(STRING_ELT(ACTIVATION_FUNCTION,0)),"sigmoid")==0) {
-       REAL(V1)[0] =  a_sigmoid * REAL(V0)[0] * ( 1 - REAL(V0)[0] );
-   } else if ( strcmp(CHAR(STRING_ELT(ACTIVATION_FUNCTION,0)),"purelin")==0) {
-       REAL(V1)[0] = 1;
-   } else if ( strcmp(CHAR(STRING_ELT(ACTIVATION_FUNCTION,0)),"hardlim")==0) {
-       REAL(V1)[0] = NA_REAL;
-   } else if ( strcmp(CHAR(STRING_ELT(ACTIVATION_FUNCTION,0)),"custom")==0) {
-       PROTECT(args=allocVector(REALSXP,1));   
-       REAL(args)[0] = a;
-       PROTECT(R_fcall = lang2(F1, args));
-       REAL(V1)[0]=REAL(eval (R_fcall, rho))[0];
-       UNPROTECT(2);
-   }
-   UNPROTECT(3);
-   return(neuron);
-}
-
-/******************************************************************************************************************/
-SEXP ADAPTgd_Backwards_MLPneuron(SEXP net, SEXP ind_neuron, SEXP rho) {
-/******************************************************************************************************************/
-   SEXP neuron,R_fcall, args, arg1, arg2, arg3;
-   SEXP aims;
-   int ind_weight, ind_other_neuron, that_neuron, that_aim;
-   int considered_input;
-   int n_protected=0;
-   double aux_DELTA ;
-   double bias_change;
-   double weight_change;
-   double x_input;
-
-   PROTECT(neuron=VECTOR_ELT(NET_NEURONS, -1+INTEGER(ind_neuron)[0] ) ); n_protected++;
-
-   if (strcmp(CHAR(STRING_ELT(TYPE,0)),"output")==0) {
-      PROTECT(args  = allocVector(VECSXP,3)     ); n_protected++;
-   /* PROTECT(arg3  = duplicate(net)            ); n_protected++;      */
-      PROTECT(arg3  = net                       ); n_protected++;      
-      PROTECT(arg2  = allocVector(REALSXP,1)    ); n_protected++;
-      PROTECT(arg1  = allocVector(REALSXP,1)    ); n_protected++;
-      REAL(arg1)[0] = REAL(V0)[0];
-      REAL(arg2)[0] = REAL(NET_TARGET)[-1+INTEGER(OUTPUT_AIMS)[0]];
-      SET_VECTOR_ELT(args, 0, arg1);
-      SET_VECTOR_ELT(args, 1, arg2);
-      SET_VECTOR_ELT(args, 2, arg3);
-      PROTECT(R_fcall = lang2(NET_DELTAE, args) ); n_protected++;
-      aux_DELTA = REAL(eval (R_fcall, rho))[0];
-   } else {
-      aux_DELTA = 0;
-      for ( ind_other_neuron=0; ind_other_neuron < LENGTH(OUTPUT_LINKS) ; ind_other_neuron++ ) {
-         that_neuron = -1+INTEGER(OUTPUT_LINKS)[ind_other_neuron];
-         that_aim    = -1+INTEGER(OUTPUT_AIMS)[ind_other_neuron];
-         aux_DELTA  += REAL(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, that_neuron), id_WEIGHTS))[that_aim] * REAL(VECTOR_ELT(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, that_neuron),id_METHOD_DEP_VARIABLES),id_ADAPTgd_DELTA))[0];
-       }
-   }
-
-   REAL(ADAPTgd_DELTA)[0] = aux_DELTA * REAL(V1)[0];
-   bias_change    = -  REAL(ADAPTgd_LEARNING_RATE)[0] * REAL(ADAPTgd_DELTA)[0];
-   REAL(BIAS)[0] += bias_change;
-   for (ind_weight = 0; ind_weight < LENGTH(WEIGHTS); ind_weight++) {
-      considered_input = INTEGER(INPUT_LINKS)[ind_weight];
-      if (considered_input < 0 ) {
-         x_input = REAL(NET_INPUT)[-1-considered_input];
-      } else {
-         x_input = REAL(VECTOR_ELT(VECTOR_ELT(NET_NEURONS, -1+considered_input),id_V0))[0];
-      }
-      weight_change  =  - REAL(ADAPTgd_LEARNING_RATE)[0] * REAL(ADAPTgd_DELTA)[0] * x_input ;
-      REAL(WEIGHTS)[ind_weight] += weight_change;
-   }
-   UNPROTECT(n_protected);
-return(neuron);
-}
-/******************************************************************************************************************/
-

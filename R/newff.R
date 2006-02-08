@@ -1,22 +1,24 @@
 #################################
 # Creates a new MLPnet object
 #############################
-newff <- function (n.neurons, learning.rate.global, momentum.global=NA, error.criterium="LMS", Stao=NA, hidden.layer=c("purelin","tansig","sigmoid","hardlim"), output.layer=c("purelin","tansig","sigmoid","hardlim"), method=c("ADAPTgd","ADAPTgdwm","BATCHgdwm","BATCHgd")) {
+# OJO : FALTA completar la entrada de un deltae custom para aceptar como parametro la función custom
 
-   net <- list( layers=list(), neurons=list() , input=as.double(rep(0,n.neurons[1])), output=as.double(rep(0,n.neurons[length(n.neurons)])), target=as.double(rep(0,n.neurons[length(n.neurons)])), deltaE=NA, other.elements=list() )
+newff <- function (n.neurons, learning.rate.global, momentum.global=NA, error.criterium="LMS", Stao=NA, hidden.layer="tansig", output.layer="purelin", method="ADAPTgdwm") {
+
+   net <- list( layers=list(), neurons=list(), input=as.double(numeric(n.neurons[1])), output=as.double(numeric(n.neurons[length(n.neurons)])), target=as.double(numeric(n.neurons[length(n.neurons)])), deltaE=list(fname=as.integer(0),f=function(){},Stao=NA), other.elements=list() )
 
    if (length(n.neurons)<3) {
        stop("You should enter a vector containing the number of input neurons, the number of neurons of each hidden layer and the number of outputs.")
    }
 
-   possible.activation.functions <- c("purelin","tansig","sigmoid","hardlim","custom")
+   possible.activation.functions <- c("custom","tansig","sigmoid","purelin","hardlim")
 
    if ( is.na(hidden.activation.function.choice <- pmatch(hidden.layer,possible.activation.functions)) ) {
        stop("You should use a correct activation function for the hidden layers.")
    } 
    if ( is.na(output.activation.function.choice <- pmatch(output.layer,possible.activation.functions)) ) {
        stop("You should use a correct activation function for the output layer.")
-   } 
+   }
 
    possible.methods <- c("ADAPTgdwm","ADAPTgd","BATCHgd","BATCHgdwm")
 
@@ -57,41 +59,45 @@ newff <- function (n.neurons, learning.rate.global, momentum.global=NA, error.cr
          method.dep.variables$delta                <- as.double(0)
          method.dep.variables$learning.rate        <- as.double(learning.rate.global)
          method.dep.variables$momentum             <- as.double(momentum.global)
-         method.dep.variables$former.weight.change <- as.double(rep(0,n.neurons[ind.layer-1]))
+         method.dep.variables$former.weight.change <- as.double(numeric(n.neurons[ind.layer-1]))
          method.dep.variables$former.bias.change   <- as.double(0)
       } else if (method == "BATCHgd"  ) {
          method.dep.variables                      <- list()
          method.dep.variables$delta                <- as.double(0)
          method.dep.variables$learning.rate        <- as.double(learning.rate.global)
-         method.dep.variables$sum.delta.x          <- as.double(rep(0,n.neurons[ind.layer-1]))
+         method.dep.variables$sum.delta.x          <- as.double(numeric(n.neurons[ind.layer-1]))
          method.dep.variables$sum.delta.bias       <- as.double(0)
       } else if (method == "BATCHgdwm") {
          method.dep.variables                      <- list()
          method.dep.variables$delta                <- as.double(0)
          method.dep.variables$learning.rate        <- as.double(learning.rate.global)
-         method.dep.variables$sum.delta.x          <- as.double(rep(0,n.neurons[ind.layer-1]))
+         method.dep.variables$sum.delta.x          <- as.double(numeric(n.neurons[ind.layer-1]))
          method.dep.variables$sum.delta.bias       <- as.double(0)
          method.dep.variables$momentum             <- as.double(momentum.global)
-         method.dep.variables$former.weight.change <- as.double(rep(0,n.neurons[ind.layer-1]))
+         method.dep.variables$former.weight.change <- as.double(numeric(n.neurons[ind.layer-1]))
          method.dep.variables$former.bias.change   <- as.double(0)
       }
 
       for ( ind.MLPneuron.relative in 1:length(net$layers[[ind.layer]]) ) {
          ind.MLPneuron <- net$layers[[ind.layer]][[ind.MLPneuron.relative]]
-         net$neurons[[ind.MLPneuron]] <- init.MLPneuron(id=ind.MLPneuron,type=this.neuron.type, activation.function=possible.activation.functions[this.neuron.activation.function.choice],output.links=output.links[[ind.layer-1]], output.aims=rep(ind.MLPneuron.relative,length(output.links[[ind.layer-1]])), input.links=input.links[[ind.layer-1]],weights=rep(0,n.neurons[ind.layer-1]), bias=0, method, method.dep.variables )
+         net$neurons[[ind.MLPneuron]] <- init.MLPneuron(id=ind.MLPneuron,type=this.neuron.type, activation.function=as.integer(this.neuron.activation.function.choice-1),output.links=output.links[[ind.layer-1]], output.aims=rep(ind.MLPneuron.relative,length(output.links[[ind.layer-1]])), input.links=input.links[[ind.layer-1]],weights=numeric(n.neurons[ind.layer-1]), bias=0, method, method.dep.variables )
       }
    }
 
+
    if (error.criterium == "LMS" ) {
-      net$deltaE <- deltaE.LMS
+      net$deltaE$fname <- as.integer(0)      # LMS_NAME  0
+      net$deltaE$f <- deltaE.LMS
    } else if (error.criterium == "LMLS") {
-      net$deltaE <- deltaE.LMLS
+      net$deltaE$fname <- as.integer(1)      # LMLS_NAME 1
+      net$deltaE$f <- deltaE.LMLS
    } else if (error.criterium == "TAO") {   
-      net$deltaE <- deltaE.TAO 
+      net$deltaE$fname <- as.integer(2)      # TAO_NAME  2
+      net$deltaE$f <- deltaE.TAO 
       if (missing(Stao)){ 
          stop("You should enter the Stao value")
       } else {
-         net$other.elements$Stao <-Stao
+         net$deltaE$Stao <-Stao
       }
    } else {
       stop("You should enter either: \"LMS\", \"LMSL\" or \"TAO\". ")
@@ -163,7 +169,7 @@ select.activation.function <- function(activation.function) {
 # b.tansig  : 2/3
 # a.sigmoid : 1.0
 
-   if (activation.function == "tansig" ) {
+   if (activation.function == 1 ) { # TANSIG
      f0 <- function (v) {
                           a.tansig   <- 1.715904708575539
                           b.tansig   <- 0.6666666666666667
@@ -174,7 +180,7 @@ select.activation.function <- function(activation.function) {
                           b.tansig   <- 0.6666666666666667
                           return( a.tansig * b.tansig * (1-tanh( v * b.tansig )^2)  )
                         } 
-    } else if (activation.function == "sigmoid" ) {
+    } else if (activation.function == 2 ) { # SIGMOID
      f0 <- function (v) {
                           a.sigmoid  <- 1
                           return( 1/(1+exp(- a.sigmoid * v)) )
@@ -183,21 +189,22 @@ select.activation.function <- function(activation.function) {
                           a.sigmoid  <- 1
                           return ( a.sigmoid * exp(- a.sigmoid * v) / (1+exp(- a.sigmoid * v))^2 )
                         } 
-   } else if (activation.function == "hardlim" ) {
-     f0 <- function (v) {
-                          if (v>=0) { return(1) } else { return(0) }
-                        }
-     f1 <- function (v) {
-                          return ( NA )
-                        }
-   } else if (activation.function == "purelin" ) {
+   } else if (activation.function == 3 ) { # PURELIN
      f0 <- function (v) {
                           return( v )  
                         }
      f1 <- function (v) {
                           return( 1 ) 
                         }
+   } else if (activation.function == 4 ) { # HARDLIM
+     f0 <- function (v) {
+                          if (v>=0) { return(1) } else { return(0) }
+                        }
+     f1 <- function (v) {
+                          return ( NA )
+                        }
    }
+
    return(list(f0=f0,f1=f1))
 }
 

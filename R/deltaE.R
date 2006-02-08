@@ -38,7 +38,7 @@ dphifun <- function(v,k) {
 deltaE.TAO <- function (arguments) {
    prediction <- arguments[[1]]
    target     <- arguments[[2]] 
-   Stao       <- arguments[[3]]$other.elements$Stao  # the third argument is the net.
+   Stao       <- arguments[[3]]$deltaE$Stao  # the third argument is the net.
    
    residual   <- prediction - target
    scaled.residual <- residual / Stao
@@ -106,7 +106,7 @@ error.LMLS <- function(arguments) {
 error.TAO <- function(arguments) {
    prediction <- arguments[[1]]                     # arg1 is the prediction
    target     <- arguments[[2]]                     # arg2 is the target
-   Stao       <- arguments[[3]]$other.elements$Stao # arg3 is net
+   Stao       <- arguments[[3]]$deltaE$Stao # arg3 is net
    residual   <- prediction - target 
    
    n.residual <- nrow(residual)

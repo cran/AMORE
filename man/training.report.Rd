@@ -6,25 +6,25 @@
 \description{Function in charge of reporting the behavior of the network training. The users should modify this function according to their needs.}
 
 \usage{
-training.report(net,P,T, epoch, error.criterium)
+training.report(net,P,T, idx.show, error.criterium)
 }
 \arguments{
 \item{net}{Neural Network to train.}
 \item{P}{Training set input values.}
 \item{T}{Training set output values}
-\item{epoch}{Current epoch.}
+\item{idx.show}{Current show index.}
 \item{error.criterium}{Criterium used to measure the goodness of fit.}
 }
 
 \value{This function does not return any value. Just useful for printing and plotting.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana González Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. Pernía Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
+Manuel Castejï¿½ Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Merï¿½	            \email{joaquin.ordieres@dim.unirioja.es}\cr
+Ana Gonzï¿½ez Marcos.                \email{ana.gonzalez@unileon.es} \cr
+Alpha V. Pernï¿½ Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
 Eliseo P. Vergara Gonzalez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de Pisón. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
+Francisco Javier Martinez de Pisï¿½. \email{francisco.martinez@dim.unirioja.es}\cr
+Fernando Alba Elï¿½s.                \email{fernando.alba@unavarra.es}\cr
 }
 
 \references{

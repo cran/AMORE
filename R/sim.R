@@ -1,167 +1,162 @@
+##################################################
+sim <-function (net,P,...) {
+UseMethod("sim")
+}
 
-###############################################################################################
-sim.MLPnet.R <- function(net,P) {
-nmuestras <- nrow(P)
-output.layer.MLPneurons <- net$layer[[length(net$layer)]]
-nsalidas <- length(output.layer.MLPneurons)
-y <- matrix(0, ncol=nsalidas, nrow=nmuestras)
-for ( i in 1:nmuestras) {
-   net <- sim.Forward.MLPnet.R(net,P[i,])
-   for ( j in 1:nsalidas ) {
-      y[i,j] <- net$neurons[[ output.layer.MLPneurons[[j]] ]]$v0
-   }
-}
-return(y)
-}
 ##################################################
-sim.Forward.MLPnet.R <- function(net,Pvector) {
-net$input <- Pvector
-for ( ind.layer in 2:length(net$layers) ) {
-   for ( ind.MLPneuron in 1:length(net$layers[[ind.layer]]) ) {
-       this.MLPneuron <- net$layers[[ind.layer]][[ind.MLPneuron]]
-       net$neurons[[this.MLPneuron]] <- sim.Forward.MLPneuron( net, this.MLPneuron )
-   }
-}
-return(net)
-}
-##################################################
-sim.Forward.MLPneuron <- function(net,ind.MLPneuron) {
-   neuron <-    net$neurons[[ind.MLPneuron]]
-   a <- 0
-   for (ind.weight in 1:length(neuron$weights)) {
-      if (neuron$input.links[ind.weight] < 0 ) {
-         x.input <- net$input[-neuron$input.links[ind.weight]]
-      } else {
-         x.input <- net$neurons[[neuron$input.links[ind.weight]]]$v0
-      }
-      a <- a + neuron$weights[ind.weight]*x.input
-   }
-   a <- a + neuron$bias
-   neuron$v0 <- neuron$f0(a)
-   return( neuron )
-}
-##################################################
-sim.MLPnet.C <- function(net,P) {
-nmuestras <- nrow(P)
-output.layer.MLPneurons <- net$layer[[length(net$layer)]]
-nsalidas <- length(output.layer.MLPneurons)
-y <- matrix(0, ncol=nsalidas, nrow=nmuestras)
-for ( i in 1:nmuestras) {
-   net <- sim.Forward.MLPnet(net,P[i,])
-   for ( j in 1:nsalidas ) {
-      y[i,j] <- net$neurons[[ output.layer.MLPneurons[[j]] ]]$v0
-   }
-}
-return(y)
-}
-####################################################
-sim.Forward.MLPnet <- function(net,Pvector) {
-net$input <- Pvector
-for ( ind.layer in 2:length(net$layers) ) {
-   for ( ind.MLPneuron in 1:length(net$layers[[ind.layer]]) ) {
-       this.MLPneuron <- net$layers[[ind.layer]][[ind.MLPneuron]]
-       net$neurons[[this.MLPneuron]] <- .Call("sim_Forward_MLPNeuron", net, as.integer(this.MLPneuron) , .GlobalEnv,PACKAGE="AMORE")
-   }
-}
-return(net) 
-}
-##################################################
-sim.MLPnet <- function(net,P) {
-nmuestras <- nrow(P)
-output.layer.MLPneurons <- net$layer[[length(net$layer)]]
-nsalidas <- length(output.layer.MLPneurons)
-y <- matrix(0, ncol=nsalidas, nrow=nmuestras)
-
-for ( i in 1:nmuestras) {
-   net <- .Call("sim_Forward_MLPnet", net, P[i,] , .GlobalEnv, PACKAGE="AMORE")
-   for ( j in 1:nsalidas ) {
-      y[i,j] <- net$neurons[[ output.layer.MLPneurons[[j]] ]]$v0
-   }
-}
-return(y)
+sim.MLPnet <- function(net,P,...) {
+   P <- as.matrix(P)
+   ytrans <- matrix(0, nrow=length(net$layer[[length(net$layer)]]), ncol=nrow(P))
+   ytrans <- .Call("sim_Forward_MLPnet", net, t(P), ytrans, .GlobalEnv, PACKAGE="AMORE")
+   return(t(ytrans))
 }
 ###############################################################################################
 
-train <- function(net, P, T, n.epochs, error.criterium="LMS", report=TRUE, show.step, Stao=NA) { 
+train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.shows, show.step, Stao=NA, prob=NULL) {
+
+   P <- as.matrix(P)
+   T <- as.matrix(T)
+
    epoch.show.step <- 0
-   show.step <- show.step -  1
    n.muestras <- nrow(P)
-# comprobar method --> adapt or batch
-# select error criterium
 
+   net$deltaE$fname <- as.integer(0)  # custom case
    if(error.criterium=="LMS") { 
-     net$deltaE <- deltaE.LMS
+     net$deltaE$fname <- as.integer(1)
+     net$deltaE$f <- deltaE.LMS
    } else if(error.criterium=="LMLS") { 
-     net$deltaE <- deltaE.LMLS
+     net$deltaE$fname <- as.integer(2)
+     net$deltaE$f <- deltaE.LMLS
    } else if(error.criterium=="TAO") { 
      if (missing(Stao)) {
         stop("You should enter the value of Stao")
      } else {
-        net$deltaE <- deltaE.TAO
-        net$other.elements$Stao=Stao
+	net$deltaE$fname <- as.integer(3)
+	net$deltaE$f    <- deltaE.TAO
+        net$deltaE$Stao <- Stao
      }
    }
 
    method <- net$neurons[[1]]$method
-   if (method=="ADAPTgd") {
-      for (epoch in 1:n.epochs) {
-         for (i in 1:n.muestras) {
-            net <- ADAPTgd.MLPnet(net,P[i,], T[i,])
-         }
-         if (report) {
-            if (epoch.show.step==show.step) {
-              training.report(net, P, T, epoch, error.criterium)
-              epoch.show.step <- 0
-            } else {
-               epoch.show.step <- epoch.show.step + 1 
-            }
-         }
-      }   
-   } else if (method=="ADAPTgdwm") {
-      for (epoch in 1:n.epochs) {
-         for (i in 1:n.muestras) {
-            net <- ADAPTgdwm.MLPnet(net,P[i,], T[i,])
-         }
-         if (report) {
-            if (epoch.show.step==show.step) {
-              training.report(net, P, T, epoch, error.criterium)
-              epoch.show.step <- 0
-            } else {
-               epoch.show.step <- epoch.show.step + 1 
-            }
-         }
-      }  
-   } else if (method=="BATCHgd") {
-      for (epoch in 1:n.epochs) {
-         net <- BATCHgd.MLPnet(net, P, T)
-         if (report) {
-            if (epoch.show.step==show.step) {
-              training.report(net, P, T, epoch, error.criterium)
-              epoch.show.step <- 0
-            } else {
-               epoch.show.step <- epoch.show.step + 1 
-            }
-         }
-      }  
-   } else if (method=="BATCHgdwm") {
-      for (epoch in 1:n.epochs) {
-         net <- BATCHgdwm.MLPnet(net, P, T)
-         if (report) {
-            if (epoch.show.step==show.step) {
-              training.report(net, P, T, epoch, error.criterium)
-              epoch.show.step <- 0
-            } else {
-               epoch.show.step <- epoch.show.step + 1 
-            }
-         }
-      }  
+
+   if (method =="ADAPTgd") {
+      train.method <- ADAPTgd.MLPnet
+   } else if (method =="ADAPTgdwm") {
+      train.method <- ADAPTgdwm.MLPnet
+   } else if (method =="BATCHgd") {
+      train.method <- BATCHgd.MLPnet
+   } else if (method =="BATCHgdwm") {
+      train.method <- BATCHgdwm.MLPnet
    }
-return(net)
+
+   if (is.null(prob)) {
+      if (!is.null(Pval) & !is.null(Tval)) {
+	Merror <- matrix(NA, ncol=2, nrow=n.shows)
+         Pval <- as.matrix(Pval)
+         Tval <- as.matrix(Tval)
+         min.error.val <- Inf
+         bestnet <- net
+         for (idx.show in 1:n.shows) {
+            net <- train.method(net, P, T, show.step)
+            P.sim    <- sim.MLPnet(net,P)
+            Pval.sim <- sim.MLPnet(net,Pval) 
+            if(error.criterium=="LMS") { 
+               error     <- error.LMS(list(prediction=P.sim,    target=T    ))
+               error.val <- error.LMS(list(prediction=Pval.sim, target=Tval ))
+            } else if(error.criterium=="LMLS") { 
+               error     <- error.LMLS(list(prediction=P.sim,    target=T    ))
+               error.val <- error.LMLS(list(prediction=Pval.sim, target=Tval ))
+            } else if(error.criterium=="TAO") {                             
+               error.aux  <- error.TAO(list(prediction=P.sim, target=T, net=net))
+               error      <- error.aux$perf
+               new.tao    <- error.aux$Stao
+               error.val  <- error.TAO(list(prediction=Pval.sim, target=Tval, net=net))$perf
+               cat("Stao:", new.tao, " ")
+            }
+            Merror [idx.show,] <- c(error,error.val)
+            if (error.val <= min.error.val ) {
+               min.error.val <- error.val
+               bestnet <- net      
+               cat(paste("index.show:", idx.show, error.criterium,"\tTRAIN:",error,"\tVAL:",error.val,"\t BEST NET\n", sep=" "))
+            } else {
+               cat(paste("index.show:", idx.show, error.criterium,"\tTRAIN:",error,"\tVAL:",error.val,"\n", sep=" "))
+            }
+         }
+         net <- bestnet
+      } else {
+	Merror <- matrix(NA, ncol=1, nrow=n.shows)
+         for (idx.show in 1:n.shows) {
+            net <- train.method(net, P, T, show.step)
+            if (report) {
+		auxReport <-  training.report(net, P, T, idx.show, error.criterium)
+		net$other.elements$Stao <- auxReport$new.tao
+		Merror [idx.show,1] <- auxReport$error
+            }
+         }
+     }
+   } else {
+      if (!is.null(Pval) & !is.null(Tval)) {
+	Merror <- matrix(NA, ncol=2, nrow=n.shows)
+         Pval <- as.matrix(Pval)
+         Tval <- as.matrix(Tval)
+         min.error.val <- Inf
+         bestnet <- net
+         for (idx.show in 1:n.shows) {
+            orden <- sample(1:n.muestras, n.muestras, replace=TRUE , prob=prob)
+            net   <- train.method(net, P[orden, , drop=FALSE], T[orden, , drop=FALSE], show.step)
+            P.sim    <- sim.MLPnet(net,P)
+            Pval.sim <- sim.MLPnet(net,Pval) 
+            if(error.criterium=="LMS") { 
+               error     <- error.LMS(list(prediction=P.sim,    target=T    ))
+               error.val <- error.LMS(list(prediction=Pval.sim, target=Tval ))
+            } else if(error.criterium=="LMLS") { 
+               error     <- error.LMLS(list(prediction=P.sim,    target=T    ))
+               error.val <- error.LMLS(list(prediction=Pval.sim, target=Tval ))
+            } else if(error.criterium=="TAO") {                             
+               error.aux  <- error.TAO(list(prediction=P.sim, target=T, net=net))
+               error      <- error.aux$perf
+               new.tao    <- error.aux$Stao
+               error.val  <- error.TAO(list(prediction=Pval.sim, target=Tval, net=net))$perf
+               cat("Stao:", new.tao, " ")
+            }
+            Merror [idx.show,] <- c(error,error.val)
+            if (error.val <= min.error.val ) {
+               min.error.val <- error.val
+               bestnet <- net      
+               cat(paste("index.show:", idx.show, error.criterium,"\tTRAIN:",error,"\tVAL:",error.val,"\t BEST NET\n", sep=" "))
+            } else {
+               cat(paste("index.show:", idx.show, error.criterium,"\tTRAIN:",error,"\tVAL:",error.val,"\n", sep=" "))
+            }
+         }
+         net <- bestnet
+      } else {
+   	Merror <- matrix(NA, ncol=1, nrow=n.shows)
+         for (idx.show in 1:n.shows) {
+            orden <- sample(1:n.muestras, n.muestras, replace=TRUE , prob=prob)
+            net <- train.method(net, P[orden, , drop=FALSE], T[orden, , drop=FALSE], show.step)
+            if (report) {
+		auxReport <-  training.report(net, P, T, idx.show, error.criterium)
+		net$other.elements$Stao <- auxReport$new.tao
+		Merror [idx.show,1] <- auxReport$error
+            }
+         }
+     }
+   }
+   return(list(net=net,Merror=Merror))
+
 }
 
 
 ###############################################################################################
-training.report <- function(net,P,T, epoch, error.criterium) {
+training.report <- function(net,P,T, idx.show, error.criterium) {
+
+
+########### BEGIN do not delete ##########
+
+   new.tao      <- NA
+
+########### END do not delete ############
+
    P.sim <- sim.MLPnet(net,P)
 #          par(mfrow=c(1,2))
 #          plot(P,T, col="red", pch="*", ylim=range(rbind(T,P.sim)))
@@ -172,16 +167,19 @@ training.report <- function(net,P,T, epoch, error.criterium) {
            error <- error.LMS(list(prediction=P.sim, target=T))
    } else if(error.criterium=="LMLS") { 
            error <- error.LMLS(list(prediction=P.sim, target=T))
-   } else if(error.criterium=="TAO") { 
+
+########### BEGIN do not delete (only minor changes allowed) ##########
+   } else if(error.criterium=="TAO") {                             
            error.aux <- error.TAO(list(prediction=P.sim, target=T, net=net))
            error     <- error.aux$perf
-           net$other.elements$Stao <- error.aux$Stao
-           cat("Stao:", net$other.elements$Stao," ")
+           new.tao   <- error.aux$Stao
+           cat("Stao:", new.tao, " ")
    }
-   cat(paste("Epoch:",epoch,error.criterium,error,"\n", sep=" "))
+########### END do not delete ############
+
+   cat(paste("index.show:", idx.show, error.criterium,error,"\n", sep=" "))
+
+########### BEGIN do not delete ##########
+return(list(error=error,new.tao=new.tao))
+########### END do not delete ############
 }
-
-
-
-
-

@@ -35,12 +35,12 @@
 \value{\emph{newff} returns a multilayer feedforward neural network object.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana González Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. Pernía Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
-Eliseo P. Vergara Gonzalez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de Pisón. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
+Joaquin Ordieres Meré.	            
+Ana González Marcos.                
+Alpha V. Pernía Espinoza.           
+Eliseo P. Vergara Gonzalez.         
+Francisco Javier Martinez de Pisón. 
+Fernando Alba Elías.                
 }
 
 \references{
@@ -66,6 +66,6 @@ target <- P^2
 net <- newff(n.neurons=c(1,3,2,1), learning.rate.global=1e-2, momentum.global=0.5,
         error.criterium="LMS", Stao=NA, hidden.layer="tansig", 
         output.layer="purelin", method="ADAPTgdwm")
-net <- train(net, P, target, n.epochs=150, error.criterium="LMS", report=TRUE, show.step=5 )
+result <- train(net, P, target, error.criterium="LMS", report=TRUE, show.step=100, n.shows=5 )
 }
 \keyword{neural}
