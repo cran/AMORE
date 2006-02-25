@@ -1,4 +1,3 @@
-\encoding{latin1}
 \name{BATCHgd.MLPnet}
 \alias{BATCHgd.MLPnet}
 \title{Batch gradient descent training}
@@ -16,17 +15,17 @@ BATCHgd.MLPnet(net,P,T,n.epochs)
 
 \value{This function returns a neural network object modified according to the chosen data.}
 \author{
-Manuel CastejÛn Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres MerÈ.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana Gonz·lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. PernÌa Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
+Manuel Castej√≥n Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Mer√©.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
+Ana Gonz√°lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
+Alpha V. Pern√≠a Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
 Eliseo P. Vergara Gonzalez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de PisÛn. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba ElÌas.                \email{fernando.alba@unavarra.es}\cr
+Francisco Javier Martinez de Pis√≥n. \email{francisco.martinez@dim.unirioja.es}\cr
+Fernando Alba El√≠as.                \email{fernando.alba@unavarra.es}\cr
 }
 
 \references{
-Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
+Simon Haykin. Neural Networks -- a Comprehensive Foundation. Prentice Hall, New Jersey, 2nd edition, 1999. ISBN 0-13-273350-1. \cr \cr
 }
 
 \seealso{

@@ -1,4 +1,7 @@
 graphviz.MLPnet <- function(net,filename,digits=8) {
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
    cat(file=filename," digraph AMOREnet { \n",append=FALSE);
    cat(file=filename,"rankdir=LR;         \n",append=TRUE);
    cat(file=filename,"ordering=out;       \n",append=TRUE);

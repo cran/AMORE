@@ -1,4 +1,3 @@
-\encoding{latin1}
 \name{graphviz.MLPnet}
 \alias{graphviz.MLPnet}
 \title{Neural network graphic representation}
@@ -15,13 +14,13 @@ graphviz.MLPnet(net, filename, digits)
 
 \value{This function writes a file suitable to be postprocessed with the graphviz package. Thus, multiple formats can be obtained: ps, pdf, ...}
 \author{
-Manuel CastejÛn Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres MerÈ.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana Gonz·lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. PernÌa Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
+Manuel Castej√≥n Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Mer√©.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
+Ana Gonz√°lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
+Alpha V. Pern√≠a Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
 Eliseo P. Vergara Gonzalez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de PisÛn. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba ElÌas.                \email{fernando.alba@unavarra.es}\cr
+Francisco Javier Martinez de Pis√≥n. \email{francisco.martinez@dim.unirioja.es}\cr
+Fernando Alba El√≠as.                \email{fernando.alba@unavarra.es}\cr
 }
 
 \references{

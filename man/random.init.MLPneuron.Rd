@@ -1,4 +1,3 @@
-\encoding{latin1}
 \name{random.init.MLPneuron}
 \alias{random.init.MLPneuron}
 \title{Initialize the neuron with random weigths and bias.}
@@ -12,18 +11,18 @@
  }
 \value{\emph{random.init.MLPneuron} returns the input neuron with bias and weights changed randomly.}
 \author{
-Manuel CastejÛn Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres MerÈ.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana Gonz·lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. PernÌa Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
-Eliseo P. Vergara Gonz·lez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de PisÛn. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba ElÌas.                \email{fernando.alba@unavarra.es}\cr
+Manuel Castej√≥n Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Mer√©.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
+Ana Gonz√°lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
+Alpha V. Pern√≠a Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
+Eliseo P. Vergara Gonz√°lez.         \email{eliseo.vergara@dim.unirioja.es}\cr
+Francisco Javier Martinez de Pis√≥n. \email{francisco.martinez@dim.unirioja.es}\cr
+Fernando Alba El√≠as.                \email{fernando.alba@unavarra.es}\cr
 }
 \seealso{
 \code{\link{random.init.MLPnet}}, \code{\link{init.MLPneuron}}, \code{\link{newff}}
 }
 \references{
-Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition, pages 182, 183 and 184. \cr \cr
+Simon Haykin. Neural Networks -- a Comprehensive Foundation. Prentice Hall, New Jersey, 2nd edition, 1999. ISBN 0-13-273350-1. \cr \cr
 }
 \keyword{neural}

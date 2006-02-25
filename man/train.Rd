@@ -1,4 +1,3 @@
-\encoding{latin1}
 \name{train}
 \alias{train}
 
@@ -26,18 +25,18 @@ train(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.sho
 
 \value{This function returns a list with two elements: the trained Neural Network object with weights and biases adjusted by the adaptative backpropagation with momentum method and a matrix with the errors obtained during the training. If the validation set is provided, the early stopping technique is applied.}
 \author{
-Manuel Castej� Limas.             \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres Mer�            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana Gonz�ez Marcos.               \email{ana.gonzalez@unileon.es} \cr
-Alpha V. Pern� Espinoza.          \email{alpha.pernia@alum.unirioja.es}\cr
-Eliseo P. Vergara Gonzalez.       \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de Pis�. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba El�s.                \email{fernando.alba@unavarra.es}\cr
+Manuel Castejón Limas.              \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Meré               \email{joaquin.ordieres@dim.unirioja.es}\cr
+Ana González Marcos.                \email{ana.gonzalez@unileon.es} \cr
+Alpha V. Pernía Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
+Eliseo P. Vergara Gonzalez.         \email{eliseo.vergara@dim.unirioja.es}\cr
+Francisco Javier Martinez de Pisón. \email{francisco.martinez@dim.unirioja.es}\cr
+Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 }
 
 \references{
-Pernia Espinoza, A.V. TAO-ROBUST BACKPROPAGATION LEARNING ALGORITHM  \cr \cr
-Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
+Pernía Espinoza, A.V., Ordieres Meré, J.B., Martínez de Pisón, F.J., González Marcos, A. TAO-robust backpropagation learning algorithm. Neural Networks. Vol. 18, Issue 2, pp. 191--204, 2005.\cr \cr
+Simon Haykin. Neural Networks -- a Comprehensive Foundation. Prentice Hall, New Jersey, 2nd edition, 1999. ISBN 0-13-273350-1. \cr \cr
 }
 
 \seealso{

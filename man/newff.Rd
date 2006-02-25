@@ -1,4 +1,3 @@
-\encoding{latin1}
 \name{newff}
 \alias{newff}
 \title{Create a Multilayer Feedforward Neural Network}
@@ -34,18 +33,18 @@
 }}
 \value{\emph{newff} returns a multilayer feedforward neural network object.}
 \author{
-Manuel CastejÛn Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres MerÈ.	            
-Ana Gonz·lez Marcos.                
-Alpha V. PernÌa Espinoza.           
+Manuel Castej√≥n Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Mer√©.	            
+Ana Gonz√°lez Marcos.                
+Alpha V. Pern√≠a Espinoza.           
 Eliseo P. Vergara Gonzalez.         
-Francisco Javier Martinez de PisÛn. 
-Fernando Alba ElÌas.                
+Francisco Javier Martinez de Pis√≥n. 
+Fernando Alba El√≠as.                
 }
 
 \references{
-Pernia Espinoza, A.V. TAO-robust backpropagation learning algorithm. Neural Networks. In press. \cr \cr
-Simon Haykin. Neural Networks. A comprehensive foundation. 2nd Edition. \cr \cr
+Pern√≠a Espinoza, A.V., Ordieres Mer√©, J.B., Mart√≠nez de Pis√≥n, F.J., Gonz√°lez Marcos, A. TAO-robust backpropagation learning algorithm. Neural Networks. Vol. 18, Issue 2, pp. 191--204, 2005.\cr \cr
+Simon Haykin. Neural Networks -- a Comprehensive Foundation. Prentice Hall, New Jersey, 2nd edition, 1999. ISBN 0-13-273350-1. \cr \cr
 }
 
 \seealso{
@@ -67,5 +66,8 @@ net <- newff(n.neurons=c(1,3,2,1), learning.rate.global=1e-2, momentum.global=0.
         error.criterium="LMS", Stao=NA, hidden.layer="tansig", 
         output.layer="purelin", method="ADAPTgdwm")
 result <- train(net, P, target, error.criterium="LMS", report=TRUE, show.step=100, n.shows=5 )
+y <- sim(result$net, P)
+plot(P,y, col="blue", pch="+")
+points(P,target, col="red", pch="x")
 }
 \keyword{neural}

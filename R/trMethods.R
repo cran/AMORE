@@ -2,6 +2,9 @@
 #	Adaptative Gradient Descent (without momentum)
 ##########################################################
 ADAPTgd.MLPnet <- function(net, P, T, n.epochs) {
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
    net <- .Call("ADAPTgd_loop_MLPnet", net, t(P), t(T),as.integer(n.epochs), new.env(), PACKAGE="AMORE" )
    return(net)
 }
@@ -12,6 +15,9 @@ ADAPTgd.MLPnet <- function(net, P, T, n.epochs) {
 #	Adaptative Gradient Descent (with momentum)
 ##########################################################
 ADAPTgdwm.MLPnet <- function(net,P,T, n.epochs) {
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
    net <- .Call("ADAPTgdwm_loop_MLPnet", net, t(P), t(T),  as.integer(n.epochs), new.env(), PACKAGE="AMORE" )
    return(net)
 }
@@ -22,6 +28,10 @@ ADAPTgdwm.MLPnet <- function(net,P,T, n.epochs) {
 #	BATCHgd ( BATCH gradient descent without momentum )
 ##############################################################
 BATCHgd.MLPnet <- function(net, P, T, n.epochs) { # Each pattern is a row of P, 
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
+
 #####  First Step: BATCHgd.Forward.MLPnet
    for (ind.MLPneuron in 1:length(net$neurons)) {
       net$neurons[[ind.MLPneuron]]$method.dep.variables$sum.delta.bias <- as.double(0)
@@ -34,6 +44,9 @@ BATCHgd.MLPnet <- function(net, P, T, n.epochs) { # Each pattern is a row of P,
 #	BATCHgdwm ( BATCH gradient descent with momentum )
 ##############################################################
 BATCHgdwm.MLPnet <- function(net, P, T, n.epochs) { # Each pattern is a row of P, 
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
 
 ##### First step: BATCHgdwm.Forward.MLPnet
    for (ind.MLPneuron in 1:length(net$neurons)) {

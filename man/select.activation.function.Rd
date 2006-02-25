@@ -1,4 +1,3 @@
-\encoding{latin1}
 \name{select.activation.function}
 \alias{select.activation.function}
 \title{Provides R code of the selected activation function.}
@@ -10,13 +9,13 @@
  }
 \value{\emph{select.activation.function} returns a list with two elements. The first, \emph{f0} is the R code selected to serve as the neuron activation function. The second, \emph{f1} is the R code of the activation function derivative.}
 \author{
-Manuel CastejÛn Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres MerÈ.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana Gonz·lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. PernÌa Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
-Eliseo P. Vergara Gonz·lez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de PisÛn. \email{francisco.martinez@dim.unirioja.es}\cr
-Fernando Alba ElÌas.                \email{fernando.alba@unavarra.es}\cr
+Manuel Castej√≥n Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Joaquin Ordieres Mer√©.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
+Ana Gonz√°lez Marcos.                \email{ana.gonzalez@unileon.es} \cr
+Alpha V. Pern√≠a Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
+Eliseo P. Vergara Gonz√°lez.         \email{eliseo.vergara@dim.unirioja.es}\cr
+Francisco Javier Martinez de Pis√≥n. \email{francisco.martinez@dim.unirioja.es}\cr
+Fernando Alba El√≠as.                \email{fernando.alba@unavarra.es}\cr
 }
 \seealso{
 \code{\link{init.MLPneuron}}, \code{\link{newff}}

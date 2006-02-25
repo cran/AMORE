@@ -5,6 +5,9 @@ UseMethod("sim")
 
 ##################################################
 sim.MLPnet <- function(net,P,...) {
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
    P <- as.matrix(P)
    ytrans <- matrix(0, nrow=length(net$layer[[length(net$layer)]]), ncol=nrow(P))
    ytrans <- .Call("sim_Forward_MLPnet", net, t(P), ytrans, .GlobalEnv, PACKAGE="AMORE")
@@ -13,7 +16,9 @@ sim.MLPnet <- function(net,P,...) {
 ###############################################################################################
 
 train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.shows, show.step, Stao=NA, prob=NULL) {
-
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
    P <- as.matrix(P)
    T <- as.matrix(T)
 
@@ -152,7 +157,9 @@ training.report <- function(net,P,T, idx.show, error.criterium) {
 
 
 ########### BEGIN do not delete ##########
-
+   if (class(net)!="MLPnet") {
+      stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
+   }
    new.tao      <- NA
 
 ########### END do not delete ############
