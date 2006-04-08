@@ -17,12 +17,12 @@ graphviz.MLPnet <- function(net,filename,digits=8) {
 
       for ( ind.weight in 1:length(neuron$weights) ) {
          if (neuron$input.links[ind.weight] < 0 ) {
-           cat(file=filename,"wi",-neuron$input.links[ind.weight],": ",round(neuron$weights[ind.weight],digits),"\|",sep="",append=TRUE);
+           cat(file=filename,"wi",-neuron$input.links[ind.weight],": ",round(neuron$weights[ind.weight],digits),"|",sep="",append=TRUE);
          } else {          
-           cat(file=filename,"w",neuron$input.link[ind.weight],": ",round(neuron$weights[ind.weight],digits),"\|",sep="",append=TRUE);
+           cat(file=filename,"w",neuron$input.link[ind.weight],": ",round(neuron$weights[ind.weight],digits),"|",sep="",append=TRUE);
          }
       }
-      cat(file=filename,"Bias:",round(neuron$bias,digits),"}\|",neuron$activation.function,"\|","<v0> v0:", round(neuron$v0,digits),"} \" ];\n",append=TRUE)
+      cat(file=filename,"Bias:",round(neuron$bias,digits),"}|",neuron$activation.function,"|","<v0> v0:", round(neuron$v0,digits),"} \" ];\n",append=TRUE)
    }
  for (i in 1:length(net$layers[[length(net$layers)]])) {
       cat(file=filename,"node [shape = hexagon, color=\"red\"] ", paste("\"Output ",i,"\"",sep=""),";\n",append=TRUE);
