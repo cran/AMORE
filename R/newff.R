@@ -5,7 +5,7 @@
 
 newff <- function (n.neurons, learning.rate.global, momentum.global=NA, error.criterium="LMS", Stao=NA, hidden.layer="tansig", output.layer="purelin", method="ADAPTgdwm") {
 
-   net <- list( layers=list(), neurons=list(), input=as.double(numeric(n.neurons[1])), output=as.double(numeric(n.neurons[length(n.neurons)])), target=as.double(numeric(n.neurons[length(n.neurons)])), deltaE=list(fname=as.integer(0),f=function(){},Stao=NA), other.elements=list() )
+   net <- list( layers=list(), neurons=list(), input=as.double(numeric(n.neurons[1])), output=as.double(numeric(n.neurons[length(n.neurons)])), target=as.double(numeric(n.neurons[length(n.neurons)])), deltaE=list(fname=as.integer(0),f=function(){},Stao=as.double(NA)), other.elements=list() )
 
    if (length(n.neurons)<3) {
        stop("You should enter a vector containing the number of input neurons, the number of neurons of each hidden layer and the number of outputs.")
@@ -97,7 +97,7 @@ newff <- function (n.neurons, learning.rate.global, momentum.global=NA, error.cr
       if (missing(Stao)){ 
          stop("You should enter the Stao value")
       } else {
-         net$deltaE$Stao <-Stao
+         net$deltaE$Stao <-as.double(Stao)
       }
    } else {
       stop("You should enter either: \"LMS\", \"LMSL\" or \"TAO\". ")
