@@ -40,7 +40,7 @@ Simon Haykin. Neural Networks -- a Comprehensive Foundation. Prentice Hall, New 
 }
 
 \seealso{
-\code{\link{newff}} } 
+\code{\link{newff}} 
 }
 
 \keyword{neural}

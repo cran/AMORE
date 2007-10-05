@@ -80,7 +80,7 @@ SEXP sim_Forward_MLPnet (SEXP net, SEXP Ptrans, SEXP ytrans, SEXP rho) {
 
 /******************************************************************************************************************/
 
-print_MLPneuron (SEXP neuron) {
+void print_MLPneuron (SEXP neuron) {
 int i;
    Rprintf("***********************************************************\n");
 /* ID */

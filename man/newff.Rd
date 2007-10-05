@@ -30,7 +30,7 @@
 \item "BATCHgd": BATCH gradient descend.
 \item "BATCHgdwm": BATCH gradient descend with momentum.
 }}
-}}
+}
 \value{\emph{newff} returns a multilayer feedforward neural network object.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
@@ -48,7 +48,7 @@ Simon Haykin. Neural Networks -- a Comprehensive Foundation. Prentice Hall, New 
 }
 
 \seealso{
-\code{\link{init.MLPneuron}}, \code{\link{random.init.MLPnet}}, \code{\link{random.init.MLPneuron}}, \code{\link{select.activation.function}} }
+\code{\link{init.MLPneuron}}, \code{\link{random.init.MLPnet}}, \code{\link{random.init.MLPneuron}}, \code{\link{select.activation.function}} 
 }
 
 \examples{
