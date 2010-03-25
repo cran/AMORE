@@ -11,7 +11,7 @@
 \item{output.aims}{The location of the output of the neuron in the input set of the addressed neuron. Gives answer to: Is this output the first, the second, the third, ..., input at the addressed neuron?. Similarly for an output neuron: Is this output the first, the second, the third, ..., element of the output vector?}
 \item{input.links}{The id's of the neurons whose outputs work as inputs for this neuron. Positive values represent that we take the outputs of other neurons as inputs. Negative values represent the coordinates of the input vector to be considered as inputs.}
 \item{weights}{The multiplying factors of the input values.}
-\item{bias} {The bias summed to the weighted sum of the inputs.}
+\item{bias}{The bias summed to the weighted sum of the inputs.}
 \item{method}{Prefered training method. Currently it can be:
         \itemize{
         \item "ADAPTgd": Adaptative gradient descend.
@@ -59,11 +59,10 @@
 \value{\emph{init.MLPneuron} returns a single neuron. Mainly used to create a neural network object.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana González Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. Pernía Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
-Eliseo P. Vergara González.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de Pisón. \email{francisco.martinez@dim.unirioja.es}\cr
+Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
+Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
+Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr
+Francisco Javier Martinez de Pisón. \email{fjmartin@unirioja.es}\cr
 Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 }
 

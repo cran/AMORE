@@ -1,4 +1,4 @@
-\name{error.TAO}
+\name{error.LMS}
 \alias{error.LMS}
 \alias{error.LMLS}
 \alias{error.TAO}
@@ -9,9 +9,11 @@
 \title{Neural network training error criteria.}
 
 \description{The error functions calculate the goodness of fit of a neural network according to certain criterium:
+\itemize{
 \item LMS:  Least Mean Squares Error.
 \item LMLS: Least Mean Log Squares minimization. 
 \item TAO:  TAO error minimization.
+}
 The deltaE functions calculate the influence functions of their error criteria.
 }
 
@@ -25,19 +27,19 @@ deltaE.TAO(arguments)
 }
 \arguments{
 \item{arguments}{List of arguments to pass to the functions.
-   \item The first element is the prediction of the neuron.
+\itemize{   
+\item The first element is the prediction of the neuron.
    \item The second element is the corresponding component of the target vector.
    \item The third element is the whole net. This allows the TAO criterium to know the value of the S parameter and eventually ( next minor update) will allow the user to apply regularization criteria.}
 }
-
+}
 \value{This functions return the error and influence function criteria.}
 \author{
 Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
-Joaquin Ordieres Meré.	            \email{joaquin.ordieres@dim.unirioja.es}\cr
-Ana González Marcos.                \email{ana.gonzalez@unileon.es} \cr
-Alpha V. Pernía Espinoza.           \email{alpha.pernia@alum.unirioja.es}\cr
-Eliseo P. Vergara Gonzalez.         \email{eliseo.vergara@dim.unirioja.es}\cr
-Francisco Javier Martinez de Pisón. \email{francisco.martinez@dim.unirioja.es}\cr
+Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
+Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
+Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr
+Francisco Javier Martinez de Pisón. \email{fjmartin@unirioja.es}\cr
 Fernando Alba Elías.                \email{fernando.alba@unavarra.es}\cr
 }
 
