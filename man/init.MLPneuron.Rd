@@ -2,7 +2,10 @@
 \alias{init.MLPneuron}
 \title{Neuron constructor.}
 \description{Creates a neuron according to the structure established by the AMORE package standard.}
-\usage{init.MLPneuron(id, type, activation.function, output.links, output.aims, input.links, weights, bias, method, method.dep.variables)}
+\usage{
+init.MLPneuron(id, type, activation.function, output.links, output.aims, input.links, 
+        weights, bias, method, method.dep.variables)
+}
 \arguments{
 \item{id}{Numerical index of the neuron (so as to be refered in a network operation).}
 \item{type}{Either hidden or ouput,  according to the layer the neuron belongs to.}

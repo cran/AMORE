@@ -3,7 +3,7 @@
 \title{Batch gradient descent training}
 \description{Modifies the neural network weights and biases according to the training set.}
 \usage{
-BATCHgd.MLPnet(net,P,T,n.epochs)
+BATCHgd.MLPnet(net,P,T,n.epochs, n.threads=0L)
 }
 
 \arguments{
@@ -11,6 +11,7 @@ BATCHgd.MLPnet(net,P,T,n.epochs)
 \item{P}{Input data set.}
 \item{T}{Target output data set.}
 \item{n.epochs}{Number of epochs to train}
+\item{n.threads}{Number of threads to spawn. If <1, spawns NumberProcessors-1 threads. If no OpenMP is found, this argument will be ignored.}
 }
 
 \value{This function returns a neural network object modified according to the chosen data.}

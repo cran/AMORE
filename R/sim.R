@@ -15,7 +15,7 @@ sim.MLPnet <- function(net,P,...) {
 }
 ###############################################################################################
 
-train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.shows, show.step, Stao=NA, prob=NULL) {
+train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.shows, show.step, Stao=NA, prob=NULL, n.threads=0L) {
    if (class(net)!="MLPnet") {
       stop("Your net parameter does not belong to the MLPnet class. Are you aware that the result from the train function is now a list instead of a net? Check parameters and try again");
    }
@@ -62,7 +62,7 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
          min.error.val <- Inf
          bestnet <- net
          for (idx.show in 1:n.shows) {
-            net <- train.method(net, P, T, show.step)
+            net <- train.method(net, P, T, show.step, n.threads=n.threads)
             P.sim    <- sim.MLPnet(net,P)
             Pval.sim <- sim.MLPnet(net,Pval) 
             if(error.criterium=="LMS") { 
@@ -91,7 +91,7 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
       } else {
 	Merror <- matrix(NA, ncol=1, nrow=n.shows)
          for (idx.show in 1:n.shows) {
-            net <- train.method(net, P, T, show.step)
+            net <- train.method(net, P, T, show.step, n.threads=n.threads)
             if (report) {
 		auxReport <-  training.report(net, P, T, idx.show, error.criterium)
 		net$other.elements$Stao <- auxReport$new.tao
@@ -108,7 +108,7 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
          bestnet <- net
          for (idx.show in 1:n.shows) {
             orden <- sample(1:n.muestras, n.muestras, replace=TRUE , prob=prob)
-            net   <- train.method(net, P[orden, , drop=FALSE], T[orden, , drop=FALSE], show.step)
+            net   <- train.method(net, P[orden, , drop=FALSE], T[orden, , drop=FALSE], show.step, n.threads=n.threads)
             P.sim    <- sim.MLPnet(net,P)
             Pval.sim <- sim.MLPnet(net,Pval) 
             if(error.criterium=="LMS") { 
@@ -138,7 +138,7 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
    	Merror <- matrix(NA, ncol=1, nrow=n.shows)
          for (idx.show in 1:n.shows) {
             orden <- sample(1:n.muestras, n.muestras, replace=TRUE , prob=prob)
-            net <- train.method(net, P[orden, , drop=FALSE], T[orden, , drop=FALSE], show.step)
+            net <- train.method(net, P[orden, , drop=FALSE], T[orden, , drop=FALSE], show.step, n.threads=n.threads)
             if (report) {
 		auxReport <-  training.report(net, P, T, idx.show, error.criterium)
 		net$other.elements$Stao <- auxReport$new.tao

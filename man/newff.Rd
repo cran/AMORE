@@ -2,7 +2,10 @@
 \alias{newff}
 \title{Create a Multilayer Feedforward Neural Network}
 \description{Creates a feedforward artificial neural network according to the structure established by the AMORE package standard.}
-\usage{newff(n.neurons, learning.rate.global, momentum.global, error.criterium, Stao, hidden.layer, output.layer, method) }
+\usage{
+newff(n.neurons, learning.rate.global, momentum.global, error.criterium, Stao, 
+	hidden.layer, output.layer, method) 
+}
 \arguments{
 \item{n.neurons}{Numeric vector containing the number of neurons of each layer. The first element of the vector is the number of input neurons, the last is the number of output neurons and the rest are the number of neuron of the different hidden layers.}
 \item{learning.rate.global}{Learning rate at which every neuron is trained.}

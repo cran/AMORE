@@ -3,7 +3,7 @@
 \title{Adaptative gradient descent training}
 \description{Adaptative gradient descent training method.}
 \usage{
-ADAPTgd.MLPnet(net,P, T,n.epochs)
+ADAPTgd.MLPnet(net,P, T,n.epochs, n.threads=0L)
 }
 
 \arguments{
@@ -11,6 +11,7 @@ ADAPTgd.MLPnet(net,P, T,n.epochs)
 \item{P}{Input data set.}
 \item{T}{Target output data set.}
 \item{n.epochs}{Number of epochs to train}
+\item{n.threads}{Unused, but required to match the BATCH* function template.}
 }
 
 \value{This function returns a neural network object modified according to the input and target data set.}

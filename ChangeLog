@@ -1,0 +1,20 @@
+v0.2-13: 2013.12.12
+	trMethods.R
+		Added thread number parameter (only used in BATCH methods)
+	sim.R
+		Added thread number parameter
+
+	src/BATCHgd.c and BATCHgdwm.c 
+		Moved var declaration to reduce dependences
+		Paralelized with OpenMP
+	Makevars
+		Created
+		Included OpenMP
+
+	man/*.MLPnet.Rd train.Rd
+		Added n.threads argument
+
+	Enforced CRAN requeriments:
+		man/ init.MLPneuron.Rd newff.Rd train.Rd :
+			Usage line reduced to less than 90 chars
+		

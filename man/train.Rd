@@ -6,7 +6,8 @@
 \description{For a given data set (training set), this function modifies the neural network weights and biases to approximate the relationships amongst variables present in the training set. These may serve to satisfy several needs, i.e. fitting non-linear functions.}
 
 \usage{
-train(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.shows, show.step, Stao=NA,prob=NULL)
+train(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE,
+ n.shows, show.step, Stao=NA,prob=NULL,n.threads=0L)
 }
 
 \arguments{
@@ -21,6 +22,7 @@ train(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE, n.sho
 \item{n.shows}{Number of times to report (if report is TRUE). The total number of training epochs is n.shows times show.step.}
 \item{show.step}{Number of epochs to train non-stop until the training function is allow to report.}
 \item{prob}{Vector with the probabilities of each sample so as to apply resampling training.}
+\item{n.threads}{Number of threads to spawn for the BATCH* training methods. If <1, spawns NumberProcessors-1 threads. If no OpenMP is found, this argument will be ignored.}
 }
 
 \value{This function returns a list with two elements: the trained Neural Network object with weights and biases adjusted by the adaptative backpropagation with momentum method and a matrix with the errors obtained during the training. If the validation set is provided, the early stopping technique is applied.}

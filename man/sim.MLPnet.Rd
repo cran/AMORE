@@ -7,7 +7,7 @@
 
 \usage{
 sim(net,P,...)
-sim.MLPnet(net,P,...)
+#sim.MLPnet(net,P,...)
 }
 
 \arguments{
