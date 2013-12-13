@@ -36,7 +36,7 @@ newff(n.neurons, learning.rate.global, momentum.global, error.criterium, Stao,
 }
 \value{\emph{newff} returns a multilayer feedforward neural network object.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            
 Ana González Marcos.                
 Alpha V. Pernía Espinoza.           

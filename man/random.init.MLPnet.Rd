@@ -6,7 +6,7 @@
 \arguments{ \item{net}{The neural network object} }
 \value{\emph{random.init.MLPnet} returns the input network with weights and biases changed randomly.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr

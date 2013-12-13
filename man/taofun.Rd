@@ -20,7 +20,7 @@ dphifun(v,k)
 
 \value{These functions return a numeric array with dimension equal to the dimension of v.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr

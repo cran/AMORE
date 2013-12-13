@@ -11,7 +11,7 @@
  }
 \value{\emph{random.init.MLPneuron} returns the input neuron with bias and weights changed randomly.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr

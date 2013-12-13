@@ -17,7 +17,7 @@ training.report(net,P,T, idx.show, error.criterium)
 
 \value{This function does not return any value. Just useful for printing and plotting.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr

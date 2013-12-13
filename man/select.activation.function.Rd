@@ -9,7 +9,7 @@
  }
 \value{\emph{select.activation.function} returns a list with two elements. The first, \emph{f0} is the R code selected to serve as the neuron activation function. The second, \emph{f1} is the R code of the activation function derivative.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr

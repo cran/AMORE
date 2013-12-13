@@ -27,7 +27,7 @@ train(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report=TRUE,
 
 \value{This function returns a list with two elements: the trained Neural Network object with weights and biases adjusted by the adaptative backpropagation with momentum method and a matrix with the errors obtained during the training. If the validation set is provided, the early stopping technique is applied.}
 \author{
-Manuel Castejón Limas.              \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas.              \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré               \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr

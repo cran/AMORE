@@ -61,7 +61,7 @@ init.MLPneuron(id, type, activation.function, output.links, output.aims, input.l
 
 \value{\emph{init.MLPneuron} returns a single neuron. Mainly used to create a neural network object.}
 \author{
-Manuel Castejón Limas. 	            \email{manuel.castejon@unileon.es}\cr
+Manuel Castejón Limas. 	            \email{manuel.castejon@gmail.com}\cr
 Joaquin Ordieres Meré.	            \email{j.ordieres@upm.es}\cr
 Ana González Marcos.                \email{ana.gonzalez@unirioja.es} \cr
 Alpha V. Pernía Espinoza.           \email{alpha.pernia@unirioja.es}\cr
