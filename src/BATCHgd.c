@@ -81,7 +81,7 @@ SEXP BATCHgd_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs, 
    /////////////////////////////////////////////////////////////////////////
 
    /////////////////////////////////////////////////////////////////////////
-   //Contribution (who is to blame) : Parallelization done by Jose Maria Perez Ramos (josem.perez.ramos@gmail.com) while working for ASASEC  
+   //Contribution (who is to blame) : Parallelization done by Jose Maria  
    //Memory allocation for running different threads in parallel:
    // Each thread will have his own pool of memory to handle the two kinds of temp vars:
    //   Vars used only inside the forwards/backwards (v0, v1 and method_delta)
@@ -120,6 +120,15 @@ SEXP BATCHgd_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs, 
    ptnet->target = targets[Ptransdim[1]-1];
    /////////////////////////////////////////////////////////////////////////
    
+   /////////////////////////////////////////////////////////////////////////
+   // Dividing learning rate (and momentum) by the number of samples in the training batch
+   // Using local temp memory because of cache (proximity references) and direct access to memory and avoiding modification of header file
+   // Using R_alloc for R to manage the memory
+   double * neuron_learning_rate  = (double*) R_alloc(n_neurons,sizeof(double));
+   for(int i=0; i<n_neurons; i++)
+      neuron_learning_rate[i] = ptnet->neurons[i]->method_dep_variables.batchgd.learning_rate / Ptransdim[1];
+   /////////////////////////////////////////////////////////////////////////
+
    for (int epoch=0; epoch < n_epochs; epoch++) {
       //Run BATCH in parallel
       #pragma omp parallel num_threads(n_threads)
@@ -131,7 +140,7 @@ SEXP BATCHgd_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs, 
 #endif
         //////////////////////////////////////////////////////////////////////////////////////
         //// Using 'private' memory for each thread temp values instead of ptnet's own memory
-        //// It's needed for multithreaded execution, in single thread model it's also used (is only modified if you not compiled with OMP).
+        //// It's needed for multithreaded execution, in single thread model it's also used (is only modified if not compiled with OMP).
         //////////////////////////////////////////////////////////////////////////////////////
         //Select vars for this thread from the "memory pool":
         //  Used only by each thread:
@@ -286,10 +295,10 @@ SEXP BATCHgd_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs, 
       /** BEGIN UPDATEWEIGHTS */
       for (int ind_neuron=0; ind_neuron <= ptnet->last_neuron ; ind_neuron++ ) {
          struct AMOREneuron* ptneuron = ptnet->neurons[ind_neuron];
-         double bias_change = - ptneuron->method_dep_variables.batchgd.learning_rate * ptneuron->method_dep_variables.batchgd.sum_delta_bias;
+         double bias_change = - neuron_learning_rate[ind_neuron] * ptneuron->method_dep_variables.batchgd.sum_delta_bias;
          ptneuron->bias += bias_change;
          for (int ind_weight = 0; ind_weight <= ptneuron->last_input_link; ind_weight++) {
-            double weight_change  =  - ptneuron->method_dep_variables.batchgd.learning_rate * ptneuron->method_dep_variables.batchgd.sum_delta_x[ind_weight] ;
+            double weight_change  =  - neuron_learning_rate[ind_neuron] * ptneuron->method_dep_variables.batchgd.sum_delta_x[ind_weight] ;
             ptneuron->weights[ind_weight] += weight_change;
          }
       }

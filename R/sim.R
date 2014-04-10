@@ -79,6 +79,11 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
                cat("Stao:", new.tao, " ")
             }
             Merror [idx.show,] <- c(error,error.val)
+
+            if((!is.finite(error)) | (!is.finite(error.val))){
+               stop("ERROR: Non-finite error found (Divergent). Try reducing the learning rate and/or the momentum");
+            }  
+
             if (error.val <= min.error.val ) {
                min.error.val <- error.val
                bestnet <- net      
@@ -96,6 +101,11 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
 		auxReport <-  training.report(net, P, T, idx.show, error.criterium)
 		net$other.elements$Stao <- auxReport$new.tao
 		Merror [idx.show,1] <- auxReport$error
+               if(!is.finite(auxReport$error)){
+                  stop("ERROR: Non-finite error found (Divergent). Try reducing the learning rate and/or the momentum");
+               } 
+            }else if(!all(is.finite(net$neurons[net$layers[[2]][1]][[1]]$weights))){
+               stop("ERROR: Non-finite weight found (Divergent). Try reducing the learning rate and/or the momentum");
             }
          }
      }
@@ -125,6 +135,11 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
                cat("Stao:", new.tao, " ")
             }
             Merror [idx.show,] <- c(error,error.val)
+            
+            if((!is.finite(error)) | (!is.finite(error.val))){
+               stop("ERROR: Non-finite error found (Divergent). Try reducing the learning rate and/or the momentum");
+            }  
+
             if (error.val <= min.error.val ) {
                min.error.val <- error.val
                bestnet <- net      
@@ -143,6 +158,11 @@ train <- function(net, P, T, Pval=NULL, Tval=NULL, error.criterium="LMS", report
 		auxReport <-  training.report(net, P, T, idx.show, error.criterium)
 		net$other.elements$Stao <- auxReport$new.tao
 		Merror [idx.show,1] <- auxReport$error
+               if(!is.finite(auxReport$error)){
+                  stop("ERROR: Non-finite error found (Divergent). Try reducing the learning rate and/or the momentum");
+               } 
+            }else if(!all(is.finite(net$neurons[net$layers[[2]][1]][[1]]$weights))){
+               stop("ERROR: Non-finite weight found (Divergent). Try reducing the learning rate and/or the momentum");
             }
          }
      }

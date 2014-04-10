@@ -1,10 +1,10 @@
-7f00e92b073a81959714b8618cd2d6e7 *ChangeLog
-8fc5249c2ad30ab9a38d7017d410aef7 *DESCRIPTION
+56294ad08d1a7d6a1ddab97883005be6 *ChangeLog
+984037c6196bdca9b0ce3f9aa9a26dd1 *DESCRIPTION
 363a5a0606e225a6bb34735e29949770 *NAMESPACE
 e9770ed101ee0eda02af40128706e3a1 *R/deltaE.R
 775af82add070552cb450c5fdf2a334e *R/graphviz.R
 af5d56655c0d46ce17f3fe65f961a986 *R/newff.R
-9e826c62ad3d3a65808dbb335d746a89 *R/sim.R
+f8463e4b56a9288e078dfdfe2cba3cb2 *R/sim.R
 628b497d23cdbf4cb1b81cc9eb9c4b35 *R/trMethods.R
 94bb63d02501e1ab9b694aa5453e9715 *man/ADAPTgd.MLPnet.Rd
 6520dcf8ceff027ead287ddf6899a878 *man/ADAPTgdwm.MLPnet.Rd
@@ -24,8 +24,8 @@ e1f9a931021d212e8760226e88421b41 *man/train.Rd
 300f73bdcf2ca2d9efb8db64e5ed520e *src/ADAPTgd.c
 7f651c226da31e3cd6c2418a515fea74 *src/ADAPTgdwm.c
 c8663d0ae326781c59e099525568018e *src/AMORE.h
-0295c52b1ab6deb15896adb499135dbc *src/BATCHgd.c
-a5c15b2fc13dc38abc02fa7cd015b8fe *src/BATCHgdwm.c
+e805420bb1e1c053346498bbdbc57ddf *src/BATCHgd.c
+f3fe19e4d455527f9778634f29726067 *src/BATCHgdwm.c
 95e3011e37d9dde0d75f3a3819b2acd3 *src/Makevars
 95e3011e37d9dde0d75f3a3819b2acd3 *src/Makevars.win
 504d18e452ea8897bbade8d739aed7a4 *src/copynet.c
