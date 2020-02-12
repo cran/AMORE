@@ -143,7 +143,7 @@ struct AMOREnet * copynet_RC (SEXP net) {
 **/
 void copynet_CR (SEXP net, struct AMOREnet * ptnet){
    struct AMOREneuron * ptneuron;
-   int ind_neuron, ind_input_neuron, ind_output_neuron, ind_weight;
+   int ind_neuron, ind_input_neuron, ind_weight;
    SEXP neuron;
 
    REAL(DELTAE_STAO)[0] = ptnet->deltaE.stao ;

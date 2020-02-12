@@ -1,6 +1,6 @@
-56294ad08d1a7d6a1ddab97883005be6 *ChangeLog
-984037c6196bdca9b0ce3f9aa9a26dd1 *DESCRIPTION
-363a5a0606e225a6bb34735e29949770 *NAMESPACE
+27254c869d58c834a43b37d7444aeef5 *ChangeLog
+612c0b272a0ad44f0a075b4b80ade4f9 *DESCRIPTION
+6c447863019d3ddfbd5295f19515de38 *NAMESPACE
 e9770ed101ee0eda02af40128706e3a1 *R/deltaE.R
 775af82add070552cb450c5fdf2a334e *R/graphviz.R
 af5d56655c0d46ce17f3fe65f961a986 *R/newff.R
@@ -21,12 +21,13 @@ dc7abcd6bebafabcd079a01f5408c388 *man/select.activation.function.Rd
 e7f3a8ee9c58fe8cb266631a91202345 *man/taofun.Rd
 e1f9a931021d212e8760226e88421b41 *man/train.Rd
 8340ec3ea75119aae4198f5b15fbc665 *man/training.report.Rd
-300f73bdcf2ca2d9efb8db64e5ed520e *src/ADAPTgd.c
-7f651c226da31e3cd6c2418a515fea74 *src/ADAPTgdwm.c
+c585b5ab3f5047423927ff1994a887ef *src/ADAPTgd.c
+522fce08253f1fd03221869e1348e197 *src/ADAPTgdwm.c
 c8663d0ae326781c59e099525568018e *src/AMORE.h
 e805420bb1e1c053346498bbdbc57ddf *src/BATCHgd.c
 f3fe19e4d455527f9778634f29726067 *src/BATCHgdwm.c
 95e3011e37d9dde0d75f3a3819b2acd3 *src/Makevars
 95e3011e37d9dde0d75f3a3819b2acd3 *src/Makevars.win
-504d18e452ea8897bbade8d739aed7a4 *src/copynet.c
-4d4c87bbc5f7ae640b3f0052fbde49c9 *src/sim.c
+3c3730bf99c15f356a8574def1b3b3d2 *src/copynet.c
+b672e168391895fcc83115924718021b *src/init.c
+cca88160cee7b233175386e616075565 *src/sim.c

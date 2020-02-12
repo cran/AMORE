@@ -16,16 +16,15 @@
 
 SEXP ADAPTgdwm_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs, SEXP rho) {
    int * Ptransdim, *Ttransdim, fila, columna, Pcounter, Tcounter;
-   int considered_input, ind_neuron, ind_other_neuron, that_neuron, that_aim, ind_weight;
+   int considered_input, ind_neuron, ind_other_neuron, that_aim, ind_weight;
    double aux_DELTA, x_input, a, bias_change, weight_change;
    int epoch, n_epochs;
 
    SEXP R_fcall, args, arg1, arg2, arg3;
-   SEXP aims, net;
+   SEXP net;
    struct AMOREneuron * ptneuron, * pt_that_neuron;
    struct AMOREnet * ptnet;
 
-   double aux1, aux2;
 
    PROTECT(net=duplicate(origNet));
    Ptransdim = INTEGER(coerceVector(getAttrib(Ptrans, R_DimSymbol), INTSXP));
@@ -133,7 +132,7 @@ SEXP ADAPTgdwm_loop_MLPnet (SEXP origNet, SEXP Ptrans, SEXP Ttrans, SEXP nepochs
             ptneuron->method_dep_variables.adaptgdwm.delta = aux_DELTA * ptneuron->v1;
             bias_change = ptneuron->method_dep_variables.adaptgdwm.momentum  * ptneuron->method_dep_variables.adaptgdwm.former_bias_change - ptneuron->method_dep_variables.adaptgdwm.learning_rate * ptneuron->method_dep_variables.adaptgdwm.delta;
             ptneuron->bias += bias_change;
-            ptneuron->method_dep_variables.adaptgdwm.former_bias_change <- bias_change;
+            ptneuron->method_dep_variables.adaptgdwm.former_bias_change = bias_change;
             for (ind_weight = 0; ind_weight <= ptneuron->last_input_link; ind_weight++) {
                considered_input = ptneuron->input_links[ind_weight];
                if (considered_input < 0 ) {

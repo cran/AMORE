@@ -1,3 +1,6 @@
+v0.2-16: 2020.02.11
+	NAMESPACE
+		Added runif to NAMESPACE to avoid warning 
 v0.2-15: 2014.04.10
 	sim.R
 		Added finite error comprobation

@@ -9,16 +9,13 @@
 /******************************************************************************************************************/
 SEXP sim_Forward_MLPnet (SEXP net, SEXP Ptrans, SEXP ytrans, SEXP rho) {
    int * Ptransdim, *ytransdim, fila, columna, Pcounter, ycounter;
-   int considered_input, ind_neuron, ind_other_neuron, that_neuron, that_aim, ind_weight;
+   int considered_input, ind_neuron, ind_weight;
    double  x_input, a;
-   int epoch, n_epochs;
 
-   SEXP R_fcall, args, arg1, arg2, arg3;
-   SEXP aims;
-   struct AMOREneuron * ptneuron, * pt_that_neuron;
+   SEXP R_fcall, args;
+   struct AMOREneuron * ptneuron;
    struct AMOREnet * ptnet;
 
-   double aux1, aux2;
 
    Ptransdim = INTEGER(coerceVector(getAttrib(Ptrans, R_DimSymbol), INTSXP));
    ytransdim = INTEGER(coerceVector(getAttrib(ytrans, R_DimSymbol), INTSXP));
